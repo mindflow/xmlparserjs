@@ -1,3 +1,5 @@
+@echo off
 mkdir out
-babel .\src\ --out-file .\out\domParser.js --map-sources
-browserify .\out\domParser.js  | uglifyjs --compress --mangle > .\out\domParser-browser.js
+CMD /C babel .\src\ --out-file .\out\domParser.js --map-sources
+CMD /C browserify .\out\domParser.js --s xmlParser | uglifyjs --compress --mangle > .\out\domParser-browser.js
+copy /y .\src\*.html .\out\ 
