@@ -2,7 +2,7 @@
   "name": "xmlparserjs",
   "version": "1.0.0",
   "description": "XML Parser JS",
-  "main": "src/x.js",
+  "main": "src/z.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

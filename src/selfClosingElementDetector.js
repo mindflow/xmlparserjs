@@ -10,12 +10,12 @@ class SelfClosingElementDetector{
         this.nameSpaceSeparator = null;
         this.found = false;
     }
-    
+
     detect(depth, xmlView){
         this.found = false;
         this.name = null;
         this.namespace = null;
-        
+
         let endPos = SelfClosingElementDetector.detectSelfClosingElementPos(depth, xmlView.xml, xmlView.cursor);
         if(endPos != -1){
             if(this.nameSpaceSeparator != null){
@@ -24,7 +24,7 @@ class SelfClosingElementDetector{
             }else{
                 this.name = xmlView.xml.substring(xmlView.cursor+1,endPos-1);
             }
-            
+
             Logger.debug(depth, 'Found self closing tag <' + this.fullName() + '/> from ' +  xmlView.cursor  + ' to ' + endPos);
             this.selfClosing = true;
             this.hasChildren = false;
@@ -39,17 +39,17 @@ class SelfClosingElementDetector{
         }
         return this.namespace + ':' + this.name;
     }
-    
+
     static detectSelfClosingElementPos(depth, xml, cursor){
         if((cursor = ReadAhead.read(xml,'<',cursor)) == -1){
             return -1;
         }
-        
+
         cursor ++;
         while (StringUtils.isInAlphabet(xml.charAt(cursor)) && cursor < xml.length) {
             cursor ++;
         }
-        
+
         if(xml.charAt(cursor) == ':'){
             Logger.debug(depth, 'Found namespace');
             this.nameSpaceSeparator = cursor;

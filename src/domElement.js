@@ -1,15 +1,15 @@
 // import DomElementAttribute from 'domElementAttribute.js';
 
 export class DomElement{
-	
+
 	constructor(name, namespace, selfClosing, childElements){
         this.name = name;
         this.namespace = namespace;
         this.selfClosing = false;
-		this.childElements = [];
-		this.attributes = [];
-		this.value = null;
-	}
+        this.childElements = [];
+        this.attributes = [];
+        this.value = null;
+    }
 
     fullName(){
         if(this.namespace == null){
@@ -17,17 +17,17 @@ export class DomElement{
         }
         return this.namespace + ':' + this.name;
     }
-    
+
     dump(){
         this.dumpLevel(0);
     }
-    
+
     dumpLevel(level){
         let spacer = ':';
         for(let space = 0 ; space < level*2 ; space ++){
             spacer = spacer + ' ';
         }
-        
+
         if(this.value != null){
             Logger.log(spacer + this.value);
             return;
@@ -42,7 +42,6 @@ export class DomElement{
         }
         Logger.log(spacer + '</' + this.fullName() + '>');
     }
- 
 
     read(){
         let result = '';
@@ -60,5 +59,5 @@ export class DomElement{
         }
         result = result + '</' + this.fullName() + '>';
         return result;
-    } 
+    }
 }

@@ -26,7 +26,7 @@ class Logger{
         console.warn(value);
         console.warn('------------------/WARN------------------');
     }
-    
+
     static error(value){
         console.error('------------------ERROR------------------');
         console.error(value);
@@ -48,7 +48,7 @@ class Logger{
         console.log(cursorLine);
         console.log(text);
         console.log(cursorLine);
-        
+
     }
 
 }

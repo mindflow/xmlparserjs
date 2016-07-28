@@ -1,16 +1,4 @@
-// npm install babel -g
-// npm install babel-preset-es2015 --save --no-bin-links
-// npm install babel-plugin-uglify --save-dev
-// npm install browserify -g
-// npm install babelify -g
-// browserify .\out\domparser.js -o .\out\domparser-browser.js -t [ babelify --presets [ es2015 ] ]
-// npm install uglifyify
-// npm install uglify-js -g
-// browserify -g uglifyify .\out\domparser.js > .\out\domparser-browser.js
-// browserify -d -p [minifyify --no-map --minify --compress ] .\out\domParser.js > .\out\domParser-browser.js
-// browserify .\out\domParser.js  | uglifyjs --compress --mangle > .\out\domParser-browser.js
-
 {
   "presets": ["es2015"]
-  
+
 }
