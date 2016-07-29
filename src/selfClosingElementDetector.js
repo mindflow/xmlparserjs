@@ -7,7 +7,6 @@ class SelfClosingElementDetector{
         this.selfClosing = false;
         this.namespace = null;
         this.hasChildren = false;
-        this.nameSpaceSeparator = null;
         this.found = false;
     }
 
@@ -16,20 +15,19 @@ class SelfClosingElementDetector{
         this.name = null;
         this.namespace = null;
 
-        let endPos = SelfClosingElementDetector.detectSelfClosingElementPos(depth, xmlView.xml, xmlView.cursor);
-        if(endPos != -1){
-            if(this.nameSpaceSeparator != null){
-                this.namespace = xmlView.xml.substring(xmlView.cursor+1,this.nameSpaceSeparator);
-                this.name = xmlView.xml.substring(this.nameSpaceSeparator+1,endPos-1);
-            }else{
-                this.name = xmlView.xml.substring(xmlView.cursor+1,endPos-1);
+        let elementPos = new ElementPos();
+        let endpos = SelfClosingElementDetector.detectSelfClosingElementPos(depth, xmlView.xml, xmlView.cursor,elementPos);
+        if(endpos != -1){
+            if(elementPos.namespaceEndpos != null){
+                this.namespace = xmlView.xml.substring(elementPos.namespaceStartpos,elementPos.namespaceEndpos+1);
             }
+            this.name = xmlView.xml.substring(elementPos.nameStartpos,elementPos.nameEndpos+1);
 
-            Logger.debug(depth, 'Found self closing tag <' + this.fullName() + '/> from ' +  xmlView.cursor  + ' to ' + endPos);
+            Logger.debug(depth, 'Found self closing tag <' + this.fullName() + '/> from ' +  xmlView.cursor  + ' to ' + endpos);
             this.selfClosing = true;
             this.hasChildren = false;
             this.found = true;
-            xmlView.cursor = endPos + 1;
+            xmlView.cursor = endpos + 1;
         }
     }
 
@@ -40,29 +38,15 @@ class SelfClosingElementDetector{
         return this.namespace + ':' + this.name;
     }
 
-    static detectSelfClosingElementPos(depth, xml, cursor){
+    static detectSelfClosingElementPos(depth, xml, cursor, elementPos){
         if((cursor = ReadAhead.read(xml,'<',cursor)) == -1){
             return -1;
         }
-
         cursor ++;
-        while (StringUtils.isInAlphabet(xml.charAt(cursor)) && cursor < xml.length) {
-            cursor ++;
-        }
-
-        if(xml.charAt(cursor) == ':'){
-            Logger.debug(depth, 'Found namespace');
-            this.nameSpaceSeparator = cursor;
-            cursor ++;
-            while (StringUtils.isInAlphabet(xml.charAt(cursor)) && cursor < xml.length) {
-                cursor ++;
-            }
-        }
-
+        cursor = elementPos.detectPositions(depth, xml, cursor);
         if((cursor = ReadAhead.read(xml,'/>',cursor)) == -1){
             return -1;
         }
-
         return cursor;
     }
 }

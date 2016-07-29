@@ -4,10 +4,11 @@ class OpenElementDetector{
         this.type = 'OpenElementDetector';
         this.name = null;
         this.value = null;
+        this.attributeNames = [];
+        this.attributeValues = [];
         this.selfClosing = false;
         this.namespace = null;
         this.hasChildren = false;
-        this.nameSpaceSeparator = null;
         this.found = false;
         this.xmlView = null;
     }
@@ -18,16 +19,15 @@ class OpenElementDetector{
         this.namespace = null;
         this.xmlView = xmlView;
 
-        let endPos = OpenElementDetector.detectOpenElementPos(depth, this.xmlView.xml, this.xmlView.cursor);
-        if(endPos != -1) {
-            if(this.nameSpaceSeparator != null){
-                this.namespace = this.xmlView.xml.substring(this.xmlView.cursor+1,this.nameSpaceSeparator);
-                this.name = this.xmlView.xml.substring(this.nameSpaceSeparator+1,endPos);
-            }else{
-                this.name = this.xmlView.xml.substring(this.xmlView.cursor+1,endPos);
+        let elementPos = new ElementPos();
+        let endpos = OpenElementDetector.detectOpenElementPos(depth, xmlView.xml, xmlView.cursor,elementPos);
+        if(endpos != -1) {
+            if(elementPos.namespaceEndpos != null){
+                this.namespace = xmlView.xml.substring(elementPos.namespaceStartpos,elementPos.namespaceEndpos+1);
             }
-            Logger.debug(depth, 'Found opening tag <' + this.fullName() + '> from ' +  this.xmlView.cursor  + ' to ' + endPos);
-            this.xmlView.cursor = this.xmlView.cursor + this.fullName().length + 2;
+            this.name = xmlView.xml.substring(elementPos.nameStartpos,elementPos.nameEndpos+1);
+            Logger.debug(depth, 'Found opening tag <' + this.fullName() + '> from ' +  xmlView.cursor  + ' to ' + endpos);
+            xmlView.cursor = xmlView.cursor + this.fullName().length + 2;
 
             if(!this.stop(depth)){
                 this.hasChildren = true;
@@ -59,24 +59,12 @@ class OpenElementDetector{
         return false;
     }
 
-    static detectOpenElementPos(depth, xml, cursor) {
+    static detectOpenElementPos(depth, xml, cursor,elementPos) {
         if((cursor = ReadAhead.read(xml,'<',cursor)) == -1){
             return -1;
         }
-
         cursor ++;
-        while (StringUtils.isInAlphabet(xml.charAt(cursor)) && cursor < xml.length) {
-            cursor ++;
-        }
-
-        if(xml.charAt(cursor) == ':'){
-            Logger.debug(depth, 'Found namespace');
-            this.nameSpaceSeparator = cursor;
-            cursor ++;
-            while (StringUtils.isInAlphabet(xml.charAt(cursor)) && cursor < xml.length) {
-                cursor ++;
-            }
-        }
+        cursor = elementPos.detectPositions(depth, xml, cursor);
         if((cursor = ReadAhead.read(xml,'>',cursor)) == -1){
             return -1;
         }
@@ -87,21 +75,8 @@ class OpenElementDetector{
         if((cursor = ReadAhead.read(xml,'</',cursor)) == -1){
             return -1;
         }
-
-        cursor++;
-
-        while (StringUtils.isInAlphabet(xml.charAt(cursor)) && cursor < xml.length) {
-            cursor ++;
-        }
-        if(xml.charAt(cursor) == ':'){
-            Logger.debug(depth, 'Found namespace');
-            this.nameSpaceSeparator = cursor;
-            cursor ++;
-            while (StringUtils.isInAlphabet(xml.charAt(cursor)) && cursor < xml.length) {
-                cursor ++;
-            }
-        }
-
+        cursor ++;
+        cursor = new ElementPos().detectPositions(depth, xml, cursor);
         if((cursor = ReadAhead.read(xml,'>',cursor)) == -1){
             return -1;
         }
