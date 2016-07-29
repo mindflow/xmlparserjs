@@ -1,13 +1,14 @@
 export class DomTree{
 
-    constructor(xml) {
+    constructor(xml, elementCreatedListener) {
+        this.elementCreatedListener = elementCreatedListener;
         this.xml = xml;
         this.rootElement = null;
     }
 
     load(){
         let domScaffold = new DomScaffold();
-        domScaffold.load(this.xml,0,this.xml.length);
+        domScaffold.load(this.xml,0,this.elementCreatedListener);
         this.rootElement = domScaffold.getTree();
     }
 

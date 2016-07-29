@@ -9,12 +9,13 @@ class DomScaffold{
         this.value = null;
         this.found = null;
         this.detectors = [];
+        this.elementCreatedListener = null;
         this.detectors.push(new ElementDetector(), new ContentDetector(), new ClosingElementDetector());
     }
 
-    load(xml, cursor){
+    load(xml, cursor, elementCreatedListener){
         let xmlView = new XmlView(xml, cursor, null);
-        this.loadDepth(1, xmlView);
+        this.loadDepth(1, xmlView, elementCreatedListener);
     }
 
     fullName(){
@@ -24,10 +25,13 @@ class DomScaffold{
         return this.namespace + ':' + this.name;
     }
 
-    loadDepth(depth, xmlView){
+    loadDepth(depth, xmlView, elementCreatedListener){
         Logger.debug(depth, 'Starting DomScaffold');
 
         Logger.showPos(xmlView.xml, xmlView.cursor);
+
+        this.elementCreatedListener = elementCreatedListener;
+
         for(let elementDetector of this.detectors) {
             if(xmlView.eof()){
                 Logger.debug(depth, 'Reached eof. Exiting');
@@ -58,7 +62,7 @@ class DomScaffold{
 
                 let childScaffold = new DomScaffold();
                 xmlView.parentDomScaffold = childScaffold;
-                childScaffold.loadDepth(depth+1, xmlView );
+                childScaffold.loadDepth(depth+1, xmlView, this.elementCreatedListener);
                 this.childDomScaffolds.push(childScaffold);
 
                 xmlView.parentDomScaffold = previousParentScaffold;
@@ -84,12 +88,17 @@ class DomScaffold{
             element.attributes.push(attribute);
         }
 
+        if(this.elementCreatedListener != null){
+            this.elementCreatedListener.elementCreated(element);
+        }
+
         for(let childScaffold of this.childDomScaffolds) {
             let childElement = childScaffold.getTree();
             if(childElement != null){
                 element.childElements.push(childElement);
             }
         }
+
         return element;
     }
 

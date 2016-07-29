@@ -16,6 +16,15 @@ export class XmlElement{
         return this.namespace + ':' + this.name;
     }
 
+    attributeValueOf(name){
+        for(let attribute of this.attributes){
+            if(attribute.name == name){
+                return attribute.value;
+            }
+        }
+        return null;
+    }
+
     dump(){
         this.dumpLevel(0);
     }
