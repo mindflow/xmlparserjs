@@ -33,10 +33,10 @@ export class DomElement{
             return;
         }
         if(this.selfClosing){
-            Logger.log(spacer + '<' + this.fullName() + '/>');
+            Logger.log(spacer + '<' + this.fullName() + this.readAttributes() + '/>');
             return;
         }
-        Logger.log(spacer + '<' + this.fullName() + '>');
+        Logger.log(spacer + '<' + this.fullName() + this.readAttributes() + '>');
         for(let childElement of this.childElements){
             childElement.dumpLevel(level+1);
         }
@@ -50,14 +50,22 @@ export class DomElement{
             return result;
         }
         if(this.selfClosing){
-            result = result + '<' + this.fullName() + '/>';
+            result = result + '<' + this.fullName() + this.readAttributes() + '/>';
             return result;
         }
-        result = result + '<' + this.fullName() + '>';
+        result = result + '<' + this.fullName() + this.readAttributes() + '>';
         for(let childElement of this.childElements){
             result = result + childElement.read();
         }
         result = result + '</' + this.fullName() + '>';
+        return result;
+    }
+
+    readAttributes(){
+        let result = '';
+        for(let attribute of this.attributes){
+            result = result + ' ' + attribute.name + '="' + attribute.value + '"';
+        }
         return result;
     }
 }

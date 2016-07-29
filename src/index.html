@@ -12,10 +12,21 @@
 
     </div>
     <script type="text/javascript">
+            domTree = new xmlParser.DomTree('<div><my:span>Hello &amp; world</my:span><br/>Hello<br/> <span>World</span></div>');
+            var now = new Date();
+            console.log('Start parsing ' + now.getTime());
+            domTree.load();
+            now = new Date();
+            console.log('End parsing ' + now.getTime());
+            value  = domTree.read();
+            now = new Date();
+            console.log('Read ' + now.getTime());
 
-        domTree = new xmlParser.DomTree('<div><my:span>Hello &amp; world</my:span><br/>Hello<br/> <span>World</span></div>');
-        domTree.load();
-        document.getElementById('test').innerHTML = domTree.read();
+
+            document.getElementById('test').innerHTML = value;
+
+            console.log(value);
+            domTree.dump();
     </script>
   </body>
 </html>

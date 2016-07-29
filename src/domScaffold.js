@@ -3,6 +3,8 @@ class DomScaffold{
     constructor(){
         this.name = null;
         this.selfClosing = false;
+        this.attrNames = [];
+        this.attrValues = [];
         this.childDomScaffolds = [];
         this.value = null;
         this.found = null;
@@ -42,6 +44,10 @@ class DomScaffold{
             this.namespace = elementDetector.namespace;
             this.value = elementDetector.value;
             this.selfClosing = elementDetector.selfClosing;
+            if(elementDetector.attrNames != null){
+                this.attrNames = elementDetector.attrNames;
+                this.attrValues = elementDetector.attrValues;
+            }
 
             if(elementDetector.selfClosing || !elementDetector.hasChildren){
                 return;
@@ -72,6 +78,11 @@ class DomScaffold{
         element.namespace = this.namespace;
         element.value = this.value;
         element.selfClosing = this.selfClosing;
+
+        for(let i=0; i< this.attrNames.length; i++){
+            let attribute = new DomElementAttribute(this.attrNames[i],this.attrValues[i]);
+            element.attributes.push(attribute);
+        }
 
         for(let childScaffold of this.childDomScaffolds) {
             let childElement = childScaffold.getTree();

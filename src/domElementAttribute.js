@@ -1,7 +1,8 @@
 export class DomElementAttribute {
 
-  constructor() {
-
+  constructor(name,value) {
+      this.name = name;
+      this.value = value;
   }
 
 }
