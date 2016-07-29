@@ -64,7 +64,10 @@ export class DomElement{
     readAttributes(){
         let result = '';
         for(let attribute of this.attributes){
-            result = result + ' ' + attribute.name + '="' + attribute.value + '"';
+            result = result + ' ' + attribute.name;
+            if(attribute.value != null){
+                result = result + '="' + attribute.value + '"';
+             }
         }
         return result;
     }

@@ -12,7 +12,7 @@
 
     </div>
     <script type="text/javascript">
-            domTree = new xmlParser.DomTree('<div test test="123"><my:span>Hello &amp; world</my:span><br:bra hello="true" hello2/>Hello<br/> <span>World</span></div>');
+            domTree = new xmlParser.DomTree('<div test2 test3= "" test ="123"><span id="1">Hello &amp; world</span><p><br hello = "true" hello2/>Hello<br/></p><span>World</span> </div>');
             var now = new Date();
             console.log('Start parsing ' + now.getTime());
             domTree.load();

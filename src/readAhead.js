@@ -2,11 +2,10 @@ class ReadAhead{
 
     static read(value, matcher, cursor, ignoreWhitespace = false){
         let internalCursor = cursor;
-
         for(let i = 0; i < matcher.length && i < value.length ; i++){
-            //if(ignoreWhitespace && value.charAt(internalCursor) == ' '){
-            //    internalCursor++;
-            //}else
+            while(value.charAt(internalCursor) == ' '){
+                internalCursor++;
+            }
             if(value.charAt(internalCursor) == matcher.charAt(i)){
                 internalCursor++;
             }else{

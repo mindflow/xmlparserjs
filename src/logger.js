@@ -1,7 +1,7 @@
 class Logger{
 
     static debugEnabled(){
-        return true;
+        return false;
     }
 
     static log(value){

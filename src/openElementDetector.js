@@ -22,10 +22,8 @@ class OpenElementDetector{
         let elementPos = new ElementPos();
         let endpos = OpenElementDetector.detectOpenElementPos(depth, xmlView.xml, xmlView.cursor,elementPos);
         if(endpos != -1) {
-            if(elementPos.namespaceEndpos != null){
-                this.namespace = xmlView.xml.substring(elementPos.namespaceStartpos,elementPos.namespaceEndpos+1);
-            }
-            this.name = xmlView.xml.substring(elementPos.nameStartpos,elementPos.nameEndpos+1);
+            this.namespace = elementPos.namespace;
+            this.name = elementPos.name;
 
             this.loadAttributes(depth, xmlView, elementPos);
             Logger.debug(depth, 'Found opening tag <' + this.fullName() + '> from ' +  xmlView.cursor  + ' to ' + endpos);
@@ -62,17 +60,11 @@ class OpenElementDetector{
     }
 
     loadAttributes(depth, xmlView, elementPos){
-        for(let i = 0 ; i < elementPos.attrNameStartPositions.length; i++){
-            let attrNameStartPos = elementPos.attrNameStartPositions[i];
-            let attrNameEndPos = elementPos.attrNameEndPositions[i];
-            let attrValueStartPos = elementPos.attrValueStartPositions[i];
-            let attrValueEndPos = elementPos.attrValueEndPositions[i];
-            this.attrNames.push(xmlView.xml.substring(attrNameStartPos,attrNameEndPos+1));
-            if(attrValueStartPos != -1 && attrValueEndPos != -1){
-                this.attrValues.push(xmlView.xml.substring(attrValueStartPos,attrValueEndPos+1));
-            }else{
-                this.attrValues.push(xmlView.xml.substring(attrNameStartPos,attrNameEndPos+1));
-            }
+        let i = 0;
+        for(let attrName of elementPos.attrNames){
+            this.attrNames.push(attrName);
+            this.attrValues.push(elementPos.attrValues[i]);
+            i++;
         }
     }
 

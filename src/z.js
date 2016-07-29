@@ -3,7 +3,7 @@
 // node .\out\helloworld\domParser.js
 
 if(typeof document == 'undefined'){
-    var domTree = new DomTree('<div test test="123"><span>Hello &amp; world</span><p><br hello="true" hello2/>Hello<br/></p><span>World</span> </div>');
+    var domTree = new DomTree('<div test2 test3= "" test ="123"><span id="1">Hello &amp; world</span><p><br hello = "true" hello2/>Hello<br/></p><span>World</span> </div>');
     var now = new Date();
     console.log('Start parsing ' + now.getTime());
     domTree.load();
