@@ -55,18 +55,18 @@ class DomScaffold{
 
             while(!elementDetector.stop(depth + 1) && xmlView.cursor < xmlView.xml.length){
                 let previousParentScaffold = xmlView.parentDomScaffold;
+
                 let childScaffold = new DomScaffold();
-                xmlView.parentDomScaffold = elementDetector;
+                xmlView.parentDomScaffold = childScaffold;
                 childScaffold.loadDepth(depth+1, xmlView );
                 this.childDomScaffolds.push(childScaffold);
+
                 xmlView.parentDomScaffold = previousParentScaffold;
             }
             Logger.showPos(xmlView.xml, xmlView.cursor);
+            return;
         }
-        if(!this.found){
-            Logger.warn('WARN: No handler was found searching from position: ' + xmlView.cursor);
-            xmlView.cursor++;
-        }
+        Logger.warn('WARN: No handler was found searching from position: ' + xmlView.cursor);
     }
 
     getTree(){
