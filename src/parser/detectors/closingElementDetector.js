@@ -1,7 +1,7 @@
-class SelfClosingElementDetector{
+class ClosingElementDetector{
 
     constructor(){
-        this.type = 'SelfClosingElementDetector';
+        this.type = 'ClosingElementDetector';
         this.name = null;
         this.value = null;
         this.attrNames = [];
@@ -17,12 +17,12 @@ class SelfClosingElementDetector{
         this.name = null;
         this.namespace = null;
         Logger.debug(depth, 'Looking for self closing element at position ' + xmlView.cursor);
-        let elementPos = new ElementPos();
-        let endpos = SelfClosingElementDetector.detectSelfClosingElementPos(depth, xmlView.xml, xmlView.cursor,elementPos);
+        let elementBody = new ElementBody();
+        let endpos = ClosingElementDetector.detectClosingElement(depth, xmlView.xml, xmlView.cursor,elementBody);
         if(endpos != -1){
-            this.namespace = elementPos.namespace;
-            this.name = elementPos.name;
-            this.loadAttributes(depth, xmlView, elementPos);
+            this.namespace = elementBody.namespace;
+            this.name = elementBody.name;
+            this.loadAttributes(depth, xmlView, elementBody);
             Logger.debug(depth, 'Found self closing tag <' + this.fullName() + '/> from ' +  xmlView.cursor  + ' to ' + endpos);
             this.selfClosing = true;
             this.hasChildren = false;
@@ -38,21 +38,21 @@ class SelfClosingElementDetector{
         return this.namespace + ':' + this.name;
     }
 
-    loadAttributes(depth, xmlView, elementPos){
+    loadAttributes(depth, xmlView, elementBody){
         let i = 0;
-        for(let attrName of elementPos.attrNames){
+        for(let attrName of elementBody.attrNames){
             this.attrNames.push(attrName);
-            this.attrValues.push(elementPos.attrValues[i]);
+            this.attrValues.push(elementBody.attrValues[i]);
             i++;
         }
     }
 
-    static detectSelfClosingElementPos(depth, xml, cursor, elementPos){
+    static detectClosingElement(depth, xml, cursor, elementBody){
         if((cursor = ReadAhead.read(xml,'<',cursor)) == -1){
             return -1;
         }
         cursor ++;
-        cursor = elementPos.detectPositions(depth+1, xml, cursor);
+        cursor = elementBody.detectPositions(depth+1, xml, cursor);
         if((cursor = ReadAhead.read(xml,'/>',cursor)) == -1){
             return -1;
         }

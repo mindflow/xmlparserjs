@@ -1,7 +1,7 @@
-class ContentElementDetector{
+class ContentDetector{
 
     constructor(){
-        this.type = 'ContentElementDetector';
+        this.type = 'ContentDetector';
         this.value = null;
         this.selfClosing = false;
         this.namespace = null;
@@ -28,11 +28,11 @@ class ContentElementDetector{
     detectContent(depth, xml, cursor, parentDomScaffold) {
         Logger.debug(depth, 'Content start at ' + cursor);
         let internalStartPos = cursor;
-        if(!ContentElementDetector.isContent(depth, xml, cursor)){
+        if(!ContentDetector.isContent(depth, xml, cursor)){
             Logger.debug(depth, 'No content found');
             return -1;
         }
-        while(ContentElementDetector.isContent(depth, xml, cursor) && cursor < xml.length){
+        while(ContentDetector.isContent(depth, xml, cursor) && cursor < xml.length){
             cursor ++;
         }
         Logger.debug(depth, 'Content end at ' + (cursor-1));

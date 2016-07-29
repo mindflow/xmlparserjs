@@ -1,4 +1,4 @@
-class ElementPos{
+class ElementBody{
 
     constructor(){
         this.name = null;

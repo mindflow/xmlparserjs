@@ -1,4 +1,4 @@
-export class DomElementAttribute {
+export class XmlAttribute {
 
   constructor(name,value) {
       this.name = name;

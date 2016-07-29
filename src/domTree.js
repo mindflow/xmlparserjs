@@ -19,7 +19,3 @@ export class DomTree{
         return this.rootElement.read();
     }
 }
-
-function newDomTree(xml){
-    return new DomTree(xml);
-}

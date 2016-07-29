@@ -9,7 +9,7 @@ class DomScaffold{
         this.value = null;
         this.found = null;
         this.detectors = [];
-        this.detectors.push(new SelfClosingElementDetector(), new OpenElementDetector(), new ContentElementDetector());
+        this.detectors.push(new ElementDetector(), new ContentDetector(), new ClosingElementDetector());
     }
 
     load(xml, cursor){
@@ -73,14 +73,14 @@ class DomScaffold{
         if(!this.found){
             return null;
         }
-        let element = new DomElement();
+        let element = new XmlElement();
         element.name = this.name;
         element.namespace = this.namespace;
         element.value = this.value;
         element.selfClosing = this.selfClosing;
 
         for(let i=0; i< this.attrNames.length; i++){
-            let attribute = new DomElementAttribute(this.attrNames[i],this.attrValues[i]);
+            let attribute = new XmlAttribute(this.attrNames[i],this.attrValues[i]);
             element.attributes.push(attribute);
         }
 

@@ -1,6 +1,4 @@
-// import DomElementAttribute from 'domElementAttribute.js';
-
-export class DomElement{
+export class XmlElement{
 
 	constructor(name, namespace, selfClosing, childElements){
         this.name = name;
