@@ -25,7 +25,7 @@ class ElementDetector{
             this.namespace = elementBody.namespace;
             this.name = elementBody.name;
             this.attrNames = elementBody.attrNames;
-            this.attrValues = elementBody.attrNames;
+            this.attrValues = elementBody.attrValues;
             Logger.debug(depth, 'Found opening tag <' + this.fullName() + '> from ' +  xmlCursor.cursor  + ' to ' + endpos);
             xmlCursor.cursor = endpos + 1;
 
