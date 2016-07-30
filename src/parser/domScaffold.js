@@ -27,9 +27,7 @@ class DomScaffold{
 
     loadDepth(depth, xmlCursor, elementCreatedListener){
         Logger.debug(depth, 'Starting DomScaffold');
-
         Logger.showPos(xmlCursor.xml, xmlCursor.cursor);
-
         this.elementCreatedListener = elementCreatedListener;
 
         for(let elementDetector of this.detectors) {

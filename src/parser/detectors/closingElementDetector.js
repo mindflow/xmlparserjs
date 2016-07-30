@@ -6,7 +6,7 @@ class ClosingElementDetector{
         this.value = null;
         this.attrNames = [];
         this.attrValues = [];
-        this.selfClosing = false;
+        this.selfClosing = true;
         this.namespace = null;
         this.hasChildren = false;
         this.found = false;
@@ -25,8 +25,6 @@ class ClosingElementDetector{
             this.attrNames = elementBody.attrNames;
             this.attrValues = elementBody.attrNames;
             Logger.debug(depth, 'Found self closing tag <' + this.fullName() + '/> from ' +  xmlCursor.cursor  + ' to ' + endpos);
-            this.selfClosing = true;
-            this.hasChildren = false;
             this.found = true;
             xmlCursor.cursor = endpos + 1;
         }
