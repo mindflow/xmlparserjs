@@ -1,4 +1,4 @@
-class XmlView{
+class XmlCursor{
 
     constructor(xml, cursor, parentDomScaffold){
         this.xml = xml;

@@ -14,8 +14,8 @@ class DomScaffold{
     }
 
     load(xml, cursor, elementCreatedListener){
-        let xmlView = new XmlView(xml, cursor, null);
-        this.loadDepth(1, xmlView, elementCreatedListener);
+        let xmlCursor = new XmlCursor(xml, cursor, null);
+        this.loadDepth(1, xmlCursor, elementCreatedListener);
     }
 
     fullName(){
@@ -25,20 +25,20 @@ class DomScaffold{
         return this.namespace + ':' + this.name;
     }
 
-    loadDepth(depth, xmlView, elementCreatedListener){
+    loadDepth(depth, xmlCursor, elementCreatedListener){
         Logger.debug(depth, 'Starting DomScaffold');
 
-        Logger.showPos(xmlView.xml, xmlView.cursor);
+        Logger.showPos(xmlCursor.xml, xmlCursor.cursor);
 
         this.elementCreatedListener = elementCreatedListener;
 
         for(let elementDetector of this.detectors) {
-            if(xmlView.eof()){
+            if(xmlCursor.eof()){
                 Logger.debug(depth, 'Reached eof. Exiting');
                 return;
             }
             Logger.debug(depth, 'Starting ' + elementDetector.type);
-            elementDetector.detect(depth + 1,xmlView);
+            elementDetector.detect(depth + 1,xmlCursor);
             if(!elementDetector.found){
                 continue;
             }
@@ -57,20 +57,20 @@ class DomScaffold{
                 return;
             }
 
-            while(!elementDetector.stop(depth + 1) && xmlView.cursor < xmlView.xml.length){
-                let previousParentScaffold = xmlView.parentDomScaffold;
+            while(!elementDetector.stop(depth + 1) && xmlCursor.cursor < xmlCursor.xml.length){
+                let previousParentScaffold = xmlCursor.parentDomScaffold;
 
                 let childScaffold = new DomScaffold();
-                xmlView.parentDomScaffold = childScaffold;
-                childScaffold.loadDepth(depth+1, xmlView, this.elementCreatedListener);
+                xmlCursor.parentDomScaffold = childScaffold;
+                childScaffold.loadDepth(depth+1, xmlCursor, this.elementCreatedListener);
                 this.childDomScaffolds.push(childScaffold);
 
-                xmlView.parentDomScaffold = previousParentScaffold;
+                xmlCursor.parentDomScaffold = previousParentScaffold;
             }
-            Logger.showPos(xmlView.xml, xmlView.cursor);
+            Logger.showPos(xmlCursor.xml, xmlCursor.cursor);
             return;
         }
-        Logger.warn('WARN: No handler was found searching from position: ' + xmlView.cursor);
+        Logger.warn('WARN: No handler was found searching from position: ' + xmlCursor.cursor);
     }
 
     getTree(){

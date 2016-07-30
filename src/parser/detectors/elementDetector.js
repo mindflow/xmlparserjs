@@ -10,24 +10,24 @@ class ElementDetector{
         this.namespace = null;
         this.hasChildren = false;
         this.found = false;
-        this.xmlView = null;
+        this.xmlCursor = null;
     }
 
-    detect(depth, xmlView){
+    detect(depth, xmlCursor){
         this.found = false;
         this.name = null;
         this.namespace = null;
-        this.xmlView = xmlView;
-        Logger.debug(depth, 'Looking for opening element at position ' + xmlView.cursor);
+        this.xmlCursor = xmlCursor;
+        Logger.debug(depth, 'Looking for opening element at position ' + xmlCursor.cursor);
         let elementBody = new ElementBody();
-        let endpos = ElementDetector.detectOpenElementBody(depth, xmlView.xml, xmlView.cursor,elementBody);
+        let endpos = ElementDetector.detectOpenElement(depth, xmlCursor.xml, xmlCursor.cursor,elementBody);
         if(endpos != -1) {
             this.namespace = elementBody.namespace;
             this.name = elementBody.name;
-
-            this.loadAttributes(depth, xmlView, elementBody);
-            Logger.debug(depth, 'Found opening tag <' + this.fullName() + '> from ' +  xmlView.cursor  + ' to ' + endpos);
-            xmlView.cursor = endpos + 1;
+            this.attrNames = elementBody.attrNames;
+            this.attrValues = elementBody.attrNames;
+            Logger.debug(depth, 'Found opening tag <' + this.fullName() + '> from ' +  xmlCursor.cursor  + ' to ' + endpos);
+            xmlCursor.cursor = endpos + 1;
 
             if(!this.stop(depth)){
                 this.hasChildren = true;
@@ -44,31 +44,22 @@ class ElementDetector{
     }
 
     stop(depth){
-        Logger.debug(depth, 'Looking for closing element at position ' + this.xmlView.cursor);
-        let closingElementBody = ElementDetector.detectEndElementBody(depth, this.xmlView.xml, this.xmlView.cursor);
-        if(closingElementBody != -1){
-            let closingTagName =  this.xmlView.xml.substring(this.xmlView.cursor+2,closingElementBody);
-            Logger.debug(depth, 'Found closing tag </' + closingTagName + '> from ' +  this.xmlView.cursor  + ' to ' + closingElementBody);
+        Logger.debug(depth, 'Looking for closing element at position ' + this.xmlCursor.cursor);
+        let closingElement = ElementDetector.detectEndElement(depth, this.xmlCursor.xml, this.xmlCursor.cursor);
+        if(closingElement != -1){
+            let closingTagName =  this.xmlCursor.xml.substring(this.xmlCursor.cursor+2,closingElement);
+            Logger.debug(depth, 'Found closing tag </' + closingTagName + '> from ' +  this.xmlCursor.cursor  + ' to ' + closingElement);
 
             if(this.fullName() != closingTagName){
                 Logger.error('ERR: Mismatch between opening tag <' + this.fullName() + '> and closing tag </' + closingTagName + '> When exiting to parent elemnt');
             }
-            this.xmlView.cursor = closingElementBody +1;
+            this.xmlCursor.cursor = closingElement +1;
             return true;
         }
         return false;
     }
 
-    loadAttributes(depth, xmlView, elementBody){
-        let i = 0;
-        for(let attrName of elementBody.attrNames){
-            this.attrNames.push(attrName);
-            this.attrValues.push(elementBody.attrValues[i]);
-            i++;
-        }
-    }
-
-    static detectOpenElementBody(depth, xml, cursor,elementBody) {
+    static detectOpenElement(depth, xml, cursor, elementBody) {
         if((cursor = ReadAhead.read(xml,'<',cursor)) == -1){
             return -1;
         }
@@ -80,7 +71,7 @@ class ElementDetector{
         return cursor;
     }
 
-    static detectEndElementBody(depth, xml, cursor){
+    static detectEndElement(depth, xml, cursor){
         if((cursor = ReadAhead.read(xml,'</',cursor)) == -1){
             return -1;
         }

@@ -14,9 +14,6 @@
     <script type="text/javascript">
 
             function ElementCreatedListener(){}
-            ElementCreatedListener.prototype.test = function(value){
-                console.log(value);
-            };
             ElementCreatedListener.prototype.elementCreated = function(element) {
                 if(element.attributeValueOf('id') == '1'){
                     element.value = 'changed';
@@ -24,7 +21,6 @@
             };
 
             var listener = new ElementCreatedListener();
-            listener.test('hello!!');
             domTree = new xmlParser.DomTree(
                 '<div test2 test3= "" test ="123"><span id="1">Hello &amp; world</span><p><br hello = "true" hello2/>Hello<br/></p><span>World</span> </div>',
                 listener

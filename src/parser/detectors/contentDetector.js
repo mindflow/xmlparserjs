@@ -8,16 +8,16 @@ class ContentDetector{
         this.found = false;
     }
 
-    detect(depth, xmlView){
+    detect(depth, xmlCursor){
         this.found = false;
         this.value = null;
 
-        let endPos = this.detectContent(depth, xmlView.xml, xmlView.cursor, xmlView.parentDomScaffold);
+        let endPos = this.detectContent(depth, xmlCursor.xml, xmlCursor.cursor, xmlCursor.parentDomScaffold);
         if(endPos != -1) {
             this.found = true;
             this.hasChildren = false;
-            this.value = xmlView.xml.substring(xmlView.cursor,endPos);
-            xmlView.cursor = endPos;
+            this.value = xmlCursor.xml.substring(xmlCursor.cursor,endPos);
+            xmlCursor.cursor = endPos;
         }
     }
 

@@ -12,22 +12,23 @@ class ClosingElementDetector{
         this.found = false;
     }
 
-    detect(depth, xmlView){
+    detect(depth, xmlCursor){
         this.found = false;
         this.name = null;
         this.namespace = null;
-        Logger.debug(depth, 'Looking for self closing element at position ' + xmlView.cursor);
+        Logger.debug(depth, 'Looking for self closing element at position ' + xmlCursor.cursor);
         let elementBody = new ElementBody();
-        let endpos = ClosingElementDetector.detectClosingElement(depth, xmlView.xml, xmlView.cursor,elementBody);
+        let endpos = ClosingElementDetector.detectClosingElement(depth, xmlCursor.xml, xmlCursor.cursor,elementBody);
         if(endpos != -1){
             this.namespace = elementBody.namespace;
             this.name = elementBody.name;
-            this.loadAttributes(depth, xmlView, elementBody);
-            Logger.debug(depth, 'Found self closing tag <' + this.fullName() + '/> from ' +  xmlView.cursor  + ' to ' + endpos);
+            this.attrNames = elementBody.attrNames;
+            this.attrValues = elementBody.attrNames;
+            Logger.debug(depth, 'Found self closing tag <' + this.fullName() + '/> from ' +  xmlCursor.cursor  + ' to ' + endpos);
             this.selfClosing = true;
             this.hasChildren = false;
             this.found = true;
-            xmlView.cursor = endpos + 1;
+            xmlCursor.cursor = endpos + 1;
         }
     }
 
@@ -36,15 +37,6 @@ class ClosingElementDetector{
             return this.name;
         }
         return this.namespace + ':' + this.name;
-    }
-
-    loadAttributes(depth, xmlView, elementBody){
-        let i = 0;
-        for(let attrName of elementBody.attrNames){
-            this.attrNames.push(attrName);
-            this.attrValues.push(elementBody.attrValues[i]);
-            i++;
-        }
     }
 
     static detectClosingElement(depth, xml, cursor, elementBody){
