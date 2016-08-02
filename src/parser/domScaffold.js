@@ -68,6 +68,7 @@ class DomScaffold{
             Logger.showPos(xmlCursor.xml, xmlCursor.cursor);
             return;
         }
+        xmlCursor.cursor++;
         Logger.warn('WARN: No handler was found searching from position: ' + xmlCursor.cursor);
     }
 

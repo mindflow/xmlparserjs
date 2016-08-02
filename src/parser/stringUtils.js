@@ -1,13 +1,13 @@
 class StringUtils{
 
-    static isInAlphabet(character) {
-        if (character.charCodeAt(0) >= 65 && character.charCodeAt(0) <= 90) {
+    static isInAlphabet(val) {
+        if (val.charCodeAt(0) >= 65 && val.charCodeAt(0) <= 90) {
             return true;
         }
-        if ( character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122 ) {
+        if ( val.charCodeAt(0) >= 97 && val.charCodeAt(0) <= 122 ) {
             return true;
         }
-        if ( character.charCodeAt(0) >= 48 && character.charCodeAt(0) <= 57 ) {
+        if ( val.charCodeAt(0) >= 48 && val.charCodeAt(0) <= 57 ) {
             return true;
         }
         return false;
