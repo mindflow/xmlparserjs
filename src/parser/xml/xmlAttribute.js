@@ -5,19 +5,19 @@ export class XmlAttribute {
       this._value = value;
   }
 
-  get name(){
+  getName(){
       return this._name;
   }
 
-  set name(val){
+  setName(val){
       this._name = val;
   }
 
-  get value(){
+  getValue(){
       return this._value;
   }
 
-  set value(val){
+  setValue(val){
       this._value = val;
   }
 }

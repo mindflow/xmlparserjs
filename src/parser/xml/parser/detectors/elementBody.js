@@ -1,10 +1,26 @@
 class ElementBody{
 
     constructor(){
-        this.name = null;
-        this.namespace = null;
-        this.attrNames = [];
-        this.attrValues = [];
+        this._name = null;
+        this._namespace = null;
+        this._attributeNames = new List();
+        this._attributeValues = new List();
+    }
+
+    getName() {
+        return this._name;
+    }
+
+    getNamespace() {
+        return this._namespace;
+    }
+
+    getAttributeNames() {
+        return this._attributeNames;
+    }
+
+    getAttributeValues() {
+        return this._attributeValues;
     }
 
     detectPositions(depth, xml, cursor){
@@ -26,9 +42,9 @@ class ElementBody{
             }
         }
         nameEndpos = cursor-1;
-        this.name = xml.substring(nameStartpos, nameEndpos+1);
+        this._name = xml.substring(nameStartpos, nameEndpos+1);
         if(namespaceStartpos != null && namespaceEndpos != null){
-                this.namespace = xml.substring(namespaceStartpos, namespaceEndpos+1);
+                this._namespace = xml.substring(namespaceStartpos, namespaceEndpos+1);
         }
         cursor = this.detectAttributes(depth,xml,cursor);
         return cursor;
@@ -38,7 +54,7 @@ class ElementBody{
         let detectedAttrNameCursor = null;
         while((detectedAttrNameCursor = this.detectNextStartAttribute(depth, xml, cursor)) != -1){
             cursor = this.detectNextEndAttribute(depth, xml, detectedAttrNameCursor);
-            this.attrNames.push(xml.substring(detectedAttrNameCursor,cursor+1));
+            this._attributeNames.add(xml.substring(detectedAttrNameCursor,cursor+1));
             Logger.debug(depth, 'Found attribute from ' + detectedAttrNameCursor + '  to ' + cursor);
             cursor = this.detectValue(depth, xml, cursor+1);
         }
@@ -65,7 +81,7 @@ class ElementBody{
     detectValue(depth, xml, cursor){
         let valuePos = cursor;
         if((valuePos = ReadAhead.read(xml,'="',valuePos,true)) == -1){
-            this.attrValues.push(null);
+            this._attributeValues.add(null);
             return cursor;
         }
         valuePos++;
@@ -75,9 +91,9 @@ class ElementBody{
             valuePos++;
         }
         if(valuePos == cursor){
-            this.attrValues.push('');
+            this._attributeValues.add('');
         }else{
-            this.attrValues.push(xml.substring(valueStartPos,valuePos));
+            this._attributeValues.add(xml.substring(valueStartPos,valuePos));
         }
 
         Logger.debug(depth, 'Found attribute content ending at ' + (valuePos-1));

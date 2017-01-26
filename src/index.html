@@ -15,14 +15,14 @@
 
             function ElementCreatedListener(){}
             ElementCreatedListener.prototype.elementCreated = function(element) {
-                if(element.attributeValueOf('id') == '1'){
+                if(element.getAttributeValue('id') == '1'){
                     element.value = 'changed';
                 }
             };
 
             var listener = new ElementCreatedListener();
             domTree = new xmlParser.DomTree(
-                '<div test2 test3= "" test ="123"><span id="1">Hello &amp; world</span><p><br hello = "true" hello2/>Hello<br/></p><span>World</span> </div>',
+                '<div test2 test3= "" test ="123"><span id="1">Hello &amp; world</span><p><br hello = "true" hello2/><![CDATA[-Hello]]><br/></p><span>World</span> </div>',
                 listener
             );
             var now = new Date();

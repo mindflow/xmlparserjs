@@ -1,46 +1,52 @@
-class ContentDetector{
+class CdataDetector{
 
     constructor(){
-        this.type = 'ContentDetector';
-        this.value = null;
-        this.selfClosing = false;
-        this.namespace = null;
-        this.found = false;
+        this._type = 'CdataDetector';
+        this._value = null;
+        this._found = false;
+    }
+
+    isFound() {
+        return this._found;
+    }
+
+    getType() {
+        return this._type;
+    }
+
+    createElement() {
+        return new XmlCdata(this._value);
     }
 
     detect(depth, xmlCursor){
-        this.found = false;
-        this.value = null;
+        this._found = false;
+        this._value = null;
 
         let endPos = this.detectContent(depth, xmlCursor.xml, xmlCursor.cursor, xmlCursor.parentDomScaffold);
         if(endPos != -1) {
-            this.found = true;
+            this._found = true;
             this.hasChildren = false;
-            this.value = xmlCursor.xml.substring(xmlCursor.cursor,endPos);
+            this._value = xmlCursor.xml.substring(xmlCursor.cursor,endPos);
             xmlCursor.cursor = endPos;
         }
     }
 
-    fullName(){
-        return null;
-    }
-
     detectContent(depth, xml, cursor, parentDomScaffold) {
-        Logger.debug(depth, 'Content start at ' + cursor);
+        Logger.debug(depth, 'Cdata start at ' + cursor);
         let internalStartPos = cursor;
-        if(!ContentDetector.isContent(depth, xml, cursor)){
-            Logger.debug(depth, 'No content found');
+        if(!CdataDetector.isContent(depth, xml, cursor)){
+            Logger.debug(depth, 'No Cdata found');
             return -1;
         }
-        while(ContentDetector.isContent(depth, xml, cursor) && cursor < xml.length){
+        while(CdataDetector.isContent(depth, xml, cursor) && cursor < xml.length){
             cursor ++;
         }
-        Logger.debug(depth, 'Content end at ' + (cursor-1));
+        Logger.debug(depth, 'Cdata end at ' + (cursor-1));
         if(parentDomScaffold == null){
             Logger.error('ERR: Content not allowed on root level in xml document');
             return -1;
         }
-        Logger.debug(depth, 'Content found value is ' + xml.substring(internalStartPos,cursor));
+        Logger.debug(depth, 'Cdata found value is ' + xml.substring(internalStartPos,cursor));
         return cursor;
     }
 

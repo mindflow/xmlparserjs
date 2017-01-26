@@ -1,7 +1,11 @@
 class Logger{
 
-    static debugEnabled(){
-        return false;
+    static disableDebug() {
+        Logger.debugEnabled = false;
+    }
+
+    static disableDebug() {
+        Logger.debugEnabled = true;
     }
 
     static log(value){
@@ -9,7 +13,7 @@ class Logger{
     }
 
     static debug(depth, value){
-        if(!Logger.debugEnabled()){
+        if(!Logger.debugEnabled){
             return;
         }
         let line = '';
@@ -34,7 +38,7 @@ class Logger{
     }
 
     static showPos(text,position){
-        if(!Logger.debugEnabled()){
+        if(!Logger.debugEnabled){
             return;
         }
         let cursorLine = '';
@@ -52,3 +56,4 @@ class Logger{
     }
 
 }
+Logger.debugEanbled = false;
