@@ -1,3 +1,5 @@
+import {Logger} from "./coreutil"
+
 class CdataDetector{
 
     constructor(){

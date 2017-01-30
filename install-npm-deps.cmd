@@ -3,6 +3,9 @@
 echo "Installing babel-cli"
 CMD /C npm install babel-cli -g
 
+echo "Installing babel latest preset"
+CMD /C npm install babel-preset-latest -g
+
 echo "Installing uglify-js"
 CMD /C npm install uglify-js -g
 

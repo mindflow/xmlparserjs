@@ -2,6 +2,8 @@
 // babel .\src\helloWorld\ --out-file .\out\helloworld\domParser.js --map-sources
 // node .\out\helloworld\domParser.js
 
+import {Logger} from "./coreutil"
+
 if(typeof document == 'undefined'){
     Logger.debugEnabled = true;
 

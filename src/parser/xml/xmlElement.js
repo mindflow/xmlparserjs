@@ -1,3 +1,5 @@
+import {Logger, Map, List} from "./coreutil"
+
 export class XmlElement{
 
 	constructor(name, namespace, selfClosing, childElements){
@@ -6,6 +8,14 @@ export class XmlElement{
         this._selfClosing = selfClosing;
         this._childElements = new List();
         this._attributes = new Map();
+    }
+
+    getName() {
+        return this._name;
+    }
+
+    getNamespace() {
+        return this._namespace;
     }
 
     getFullName() {

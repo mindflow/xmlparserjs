@@ -1,3 +1,5 @@
+import {Logger} from "./coreutil"
+
 class ClosingElementDetector{
 
     constructor(){
@@ -24,11 +26,11 @@ class ClosingElementDetector{
         let endpos = ClosingElementDetector.detectClosingElement(depth, xmlCursor.xml, xmlCursor.cursor,elementBody);
         if(endpos != -1){
             this._element = new XmlElement(elementBody.getName(), elementBody.getNamespace(), true);
-            for(var i = 0; i< elementBody.getAttributeNames().size(); i++) {
-                var attributeName = elementBody.getAttributeNames().get(i);
-                var attributeValue = elementBody.getAttributeValues().get(i);
-                this._element.getAttributes().set(attributeName,new XmlAttribute(attributeName,attributeValue));
-            }
+
+            elementBody.getAttributes().forEach(function(attributeName,attributeValue,parent){
+                parent._element.getAttributes().set(attributeName,new XmlAttribute(attributeName, attributeValue));
+                return true;
+            },this);
 
             Logger.debug(depth, 'Found self closing tag <' + this._element.getFullName() + '/> from ' +  xmlCursor.cursor  + ' to ' + endpos);
             this._found = true;

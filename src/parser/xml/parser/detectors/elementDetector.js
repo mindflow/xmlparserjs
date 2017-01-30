@@ -1,3 +1,5 @@
+import {Logger} from "./coreutil"
+
 class ElementDetector{
 
     constructor(){
@@ -32,11 +34,11 @@ class ElementDetector{
         if(endpos != -1) {
 
             this._element = new XmlElement(elementBody.getName(), elementBody.getNamespace(), false);
-            for(var i = 0; i< elementBody.getAttributeNames().size(); i++) {
-                var attributeName = elementBody.getAttributeNames().get(i);
-                var attributeValue = elementBody.getAttributeValues().get(i);
-                this._element.getAttributes().set(attributeName,new XmlAttribute(attributeName, attributeValue));
-            }
+
+            elementBody.getAttributes().forEach(function(attributeName,attributeValue,parent){
+                parent._element.getAttributes().set(attributeName,new XmlAttribute(attributeName, attributeValue));
+                return true;
+            },this);
 
             Logger.debug(depth, 'Found opening tag <' + this._element.getFullName() + '> from ' +  xmlCursor.cursor  + ' to ' + endpos);
             xmlCursor.cursor = endpos + 1;

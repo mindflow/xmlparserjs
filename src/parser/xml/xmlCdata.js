@@ -1,3 +1,5 @@
+import {Logger} from "./coreutil"
+
 export class XmlCdata{
 
 	constructor(value){
@@ -6,6 +8,10 @@ export class XmlCdata{
 
     setValue(value) {
         this._value = value;
+    }
+
+    getValue() {
+        return this._value;
     }
 
     dump(){

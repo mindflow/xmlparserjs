@@ -1,1 +1,1 @@
-node .\out\domParser.js
+node .\target\xmlparser.js

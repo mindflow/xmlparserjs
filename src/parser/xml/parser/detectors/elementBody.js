@@ -1,10 +1,11 @@
+import {Logger, Map, StringUtils} from "./coreutil"
+
 class ElementBody{
 
     constructor(){
         this._name = null;
         this._namespace = null;
-        this._attributeNames = new List();
-        this._attributeValues = new List();
+        this._attributes = new Map();
     }
 
     getName() {
@@ -15,12 +16,8 @@ class ElementBody{
         return this._namespace;
     }
 
-    getAttributeNames() {
-        return this._attributeNames;
-    }
-
-    getAttributeValues() {
-        return this._attributeValues;
+    getAttributes() {
+        return this._attributes;
     }
 
     detectPositions(depth, xml, cursor){
@@ -54,12 +51,13 @@ class ElementBody{
         let detectedAttrNameCursor = null;
         while((detectedAttrNameCursor = this.detectNextStartAttribute(depth, xml, cursor)) != -1){
             cursor = this.detectNextEndAttribute(depth, xml, detectedAttrNameCursor);
-            this._attributeNames.add(xml.substring(detectedAttrNameCursor,cursor+1));
+            var name = xml.substring(detectedAttrNameCursor,cursor+1);
             Logger.debug(depth, 'Found attribute from ' + detectedAttrNameCursor + '  to ' + cursor);
-            cursor = this.detectValue(depth, xml, cursor+1);
+            cursor = this.detectValue(name,depth, xml, cursor+1);
         }
         return cursor;
     }
+
 
     detectNextStartAttribute(depth, xml, cursor){
         while(xml.charAt(cursor) == ' ' && cursor < xml.length){
@@ -78,10 +76,10 @@ class ElementBody{
         return cursor -1;
     }
 
-    detectValue(depth, xml, cursor){
+    detectValue(name, depth, xml, cursor){
         let valuePos = cursor;
         if((valuePos = ReadAhead.read(xml,'="',valuePos,true)) == -1){
-            this._attributeValues.add(null);
+            this._attributes.set(name,null);
             return cursor;
         }
         valuePos++;
@@ -91,9 +89,9 @@ class ElementBody{
             valuePos++;
         }
         if(valuePos == cursor){
-            this._attributeValues.add('');
+            this._attributes.set(name, '');
         }else{
-            this._attributeValues.add(xml.substring(valueStartPos,valuePos));
+            this._attributes.set(name, xml.substring(valueStartPos,valuePos));
         }
 
         Logger.debug(depth, 'Found attribute content ending at ' + (valuePos-1));

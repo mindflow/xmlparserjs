@@ -1,3 +1,5 @@
+import {Logger, List} from "./coreutil"
+
 class DomScaffold{
 
     constructor(){
@@ -8,6 +10,10 @@ class DomScaffold{
         this._detectors.add(new ElementDetector());
         this._detectors.add(new CdataDetector());
         this._detectors.add(new ClosingElementDetector());
+    }
+
+    getElement() {
+        return this._element;
     }
 
     load(xml, cursor, elementCreatedListener){
@@ -56,15 +62,15 @@ class DomScaffold{
         Logger.showPos(xmlCursor.xml, xmlCursor.cursor);
     }
 
-    getTree(){
+    getTree(parentNotifyResult){
         if(this._element == null){
             return null;
         }
 
-        this.notifyElementCreatedListener(this._element);
+        let notifyResult = this.notifyElementCreatedListener(this._element,parentNotifyResult);
 
-        this._childDomScaffolds.forEach(function(childScaffold,parent) {
-            let childElement = childScaffold.getTree();
+        this._childDomScaffolds.forEach(function(childDomScaffold,parent) {
+            let childElement = childDomScaffold.getTree(notifyResult);
             if(childElement != null){
                 parent._element.getChildElements().add(childElement);
             }
@@ -74,10 +80,11 @@ class DomScaffold{
         return this._element;
     }
 
-    notifyElementCreatedListener(element) {
+    notifyElementCreatedListener(element, parentNotifyResult) {
         if(this._elementCreatedListener != null){
-            this._elementCreatedListener.elementCreated(element);
+            return this._elementCreatedListener.elementCreated(element, parentNotifyResult);
         }
+        return null;
     }
 
 }
