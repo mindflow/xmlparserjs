@@ -5,8 +5,8 @@
   "main": "src/z.js",
   "scripts": {
     "build": "babel src -d target/src",
-    "file": "babel src -o target/xmlparser.js",
-    "browser": "browserify target/xmlparser.js --s xmlparser | uglifyjs --compress --mangle > target/xmlparser-browser.js"
+    "file": "babel src -o target/xmlparser.js --source-maps",
+    "browser": "browserify target/xmlparser.js --debug --s xmlparser | uglifyjs --compress --mangle > target/xmlparser-browser.js"
   },
   "author": "Tor Nilsen",
   "license": "MIT",
