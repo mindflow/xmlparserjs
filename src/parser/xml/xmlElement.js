@@ -1,4 +1,4 @@
-import {Logger, Map, List} from "./coreutil"
+import {Logger, List, Map} from "./coreutil"
 
 export class XmlElement{
 

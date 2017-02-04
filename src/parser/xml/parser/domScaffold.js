@@ -1,11 +1,13 @@
-import {Logger, List} from "./coreutil"
+const coreutilPromise = import("./coreutil");
+var coreutil;
+coreutilPromise.then(function(value){coreutil = value});
 
 class DomScaffold{
 
     constructor(){
         this._element = null;
-        this._childDomScaffolds = new List();
-        this._detectors = new List();
+        this._childDomScaffolds = new coreutil.List();
+        this._detectors = new coreutil.List();
         this._elementCreatedListener = null;
         this._detectors.add(new ElementDetector());
         this._detectors.add(new CdataDetector());
@@ -22,18 +24,18 @@ class DomScaffold{
     }
 
     loadDepth(depth, xmlCursor, elementCreatedListener){
-        Logger.showPos(xmlCursor.xml, xmlCursor.cursor);
-        Logger.debug(depth, 'Starting DomScaffold');
+        coreutil.Logger.showPos(xmlCursor.xml, xmlCursor.cursor);
+        coreutil.Logger.debug(depth, 'Starting DomScaffold');
         this._elementCreatedListener = elementCreatedListener;
 
         if(xmlCursor.eof()){
-            Logger.debug(depth, 'Reached eof. Exiting');
+            coreutil.Logger.debug(depth, 'Reached eof. Exiting');
             return false;
         }
 
         var elementDetector = null;
         this._detectors.forEach(function(curElementDetector,parent){
-            Logger.debug(depth, 'Starting ' + curElementDetector.getType());
+            coreutil.Logger.debug(depth, 'Starting ' + curElementDetector.getType());
             curElementDetector.detect(depth + 1,xmlCursor);
             if(!curElementDetector.isFound()){
                 return true;
@@ -44,7 +46,7 @@ class DomScaffold{
 
         if(elementDetector == null){
             xmlCursor.cursor++;
-            Logger.warn('WARN: No handler was found searching from position: ' + xmlCursor.cursor);
+            coreutil.Logger.warn('WARN: No handler was found searching from position: ' + xmlCursor.cursor);
         }
 
         this._element = elementDetector.createElement();
@@ -59,7 +61,7 @@ class DomScaffold{
                 xmlCursor.parentDomScaffold = previousParentScaffold;
             }
         }
-        Logger.showPos(xmlCursor.xml, xmlCursor.cursor);
+        coreutil.Logger.showPos(xmlCursor.xml, xmlCursor.cursor);
     }
 
     getTree(parentNotifyResult){

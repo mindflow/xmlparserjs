@@ -2,17 +2,16 @@
   "name": "xmlparserjs",
   "version": "1.0.0",
   "description": "XML Parser JS",
-  "main": "src/z.js",
   "scripts": {
-    "build": "babel src -d target/src",
-    "file": "babel src -o target/xmlparser.js --source-maps",
-    "browser": "browserify target/xmlparser.js --debug --s xmlparser | uglifyjs --compress --mangle > target/xmlparser-browser.js"
+    "build": "babel src -o target/xmlparser.js --source-maps --plugins dynamic-import-webpack",
+	"bundle": "webpack"
   },
   "author": "Tor Nilsen",
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.22.2",
+    "babel-plugin-dynamic-import-webpack": "^1.0.1",
     "babel-preset-env": "^1.1.8",
-    "babel-preset-latest": "^6.22.0"
+	"webpack": "^2.2.1"
   }
 }
