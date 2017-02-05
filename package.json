@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "XML Parser JS",
   "scripts": {
-    "build": "babel src -o target/xmlparser.js --source-maps --plugins dynamic-import-webpack",
+    "build": "babel src/main/xmlparser -o target/xmlparser.js --source-maps --plugins dynamic-import-webpack",
 	"bundle": "webpack"
   },
   "author": "Tor Nilsen",
