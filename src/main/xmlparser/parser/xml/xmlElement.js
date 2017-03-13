@@ -33,6 +33,22 @@ export class XmlElement{
         this._attributes = attributes;
     }
 
+    setAttribute(key,value) {
+		this._attributes.set(key,value);
+	}
+
+	getAttribute(key) {
+		return this._attributes.get(key);
+	}
+
+    containsAttribute(key){
+        return this._attributes.contains(key);
+    }
+
+	clearAttribute(){
+		this._attributes = new Map();
+	}
+
     getChildElements(){
         return this._childElements;
     }

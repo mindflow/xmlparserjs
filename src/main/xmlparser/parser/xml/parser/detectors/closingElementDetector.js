@@ -28,7 +28,7 @@ class ClosingElementDetector{
             this._element = new XmlElement(elementBody.getName(), elementBody.getNamespace(), true);
 
             elementBody.getAttributes().forEach(function(attributeName,attributeValue,parent){
-                parent._element.getAttributes().set(attributeName,new XmlAttribute(attributeName, attributeValue));
+                parent._element.setAttribute(attributeName,new XmlAttribute(attributeName, attributeValue));
                 return true;
             },this);
 
