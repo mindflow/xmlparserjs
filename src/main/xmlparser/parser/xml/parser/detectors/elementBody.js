@@ -1,6 +1,7 @@
-import {Logger, Map, StringUtils} from "./coreutil"
+import {Logger, Map, StringUtils} from "coreutil"
+import {ReadAhead} from "../readAhead"
 
-class ElementBody{
+export class ElementBody{
 
     constructor(){
         this._name = null;

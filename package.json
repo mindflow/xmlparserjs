@@ -1,17 +1,15 @@
 {
-  "name": "xmlparserjs",
-  "version": "1.0.0",
-  "description": "XML Parser JS",
-  "scripts": {
-    "build": "babel src/main/xmlparser -o target/xmlparser.js --source-maps --plugins dynamic-import-webpack",
-	"bundle": "webpack"
-  },
-  "author": "Tor Nilsen",
-  "license": "MIT",
-  "devDependencies": {
-    "babel-cli": "^6.22.2",
-    "babel-plugin-dynamic-import-webpack": "^1.0.1",
-    "babel-preset-es2015": "^6.5.0",
-	"webpack": "^2.2.1"
-  }
+    "name": "xmlparserjs",
+    "version": "1.0.0",
+    "description": "XML Parser JS",
+    "main":"./target/xmlparser.js",
+    "scripts": {
+        "build": "rollup -c"
+    },
+    "author": "Toby Nilsen",
+    "license": "MIT",
+    "devDependencies": {
+        "rollup": "^0.41.6",
+        "rollup-plugin-multi-entry": "^2.0.1"
+    }
 }

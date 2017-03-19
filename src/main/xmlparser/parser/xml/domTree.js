@@ -1,3 +1,5 @@
+import {DomScaffold} from "./parser/domScaffold"
+
 export class DomTree{
 
     constructor(xml, elementCreatedListener) {

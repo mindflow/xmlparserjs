@@ -1,6 +1,11 @@
-import {Logger} from "./coreutil"
+import {Logger} from "coreutil"
+import {XmlElement} from "../../xmlElement"
+import {ReadAhead} from "../readAhead"
+import {ElementBody} from "./elementBody"
+import {XmlAttribute} from "../../xmlAttribute"
 
-class ClosingElementDetector{
+
+export class ClosingElementDetector{
 
     constructor(){
         this._type = 'ClosingElementDetector';

@@ -1,4 +1,4 @@
-class ReadAhead{
+export class ReadAhead{
 
     static read(value, matcher, cursor, ignoreWhitespace = false){
         let internalCursor = cursor;

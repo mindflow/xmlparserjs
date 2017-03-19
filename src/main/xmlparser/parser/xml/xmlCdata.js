@@ -1,4 +1,4 @@
-import {Logger} from "./coreutil"
+import {Logger} from "coreutil"
 
 export class XmlCdata{
 

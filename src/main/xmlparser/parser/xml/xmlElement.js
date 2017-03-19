@@ -1,4 +1,6 @@
-import {Logger, List, Map} from "./coreutil"
+import {Logger, List, Map} from "coreutil"
+import {XmlCdata} from "./xmlCdata"
+
 
 export class XmlElement{
 

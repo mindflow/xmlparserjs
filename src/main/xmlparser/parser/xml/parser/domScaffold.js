@@ -1,13 +1,16 @@
-const coreutilPromise = import("./coreutil");
-var coreutil;
-coreutilPromise.then(function(value){coreutil = value});
+import {List} from "coreutil"
+import {ElementDetector} from "./detectors/elementDetector"
+import {CdataDetector} from "./detectors/cdataDetector"
+import {ClosingElementDetector} from "./detectors/closingElementDetector"
+import {XmlCursor} from "./xmlCursor"
 
-class DomScaffold{
+export class DomScaffold{
+
 
     constructor(){
         this._element = null;
-        this._childDomScaffolds = new coreutil.List();
-        this._detectors = new coreutil.List();
+        this._childDomScaffolds = new List();
+        this._detectors = new List();
         this._elementCreatedListener = null;
         this._detectors.add(new ElementDetector());
         this._detectors.add(new CdataDetector());

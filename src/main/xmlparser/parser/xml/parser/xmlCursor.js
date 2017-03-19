@@ -1,4 +1,4 @@
-class XmlCursor{
+export class XmlCursor{
 
     constructor(xml, cursor, parentDomScaffold){
         this.xml = xml;

@@ -1,6 +1,10 @@
-import {Logger} from "./coreutil"
+import {Logger} from "coreutil"
+import {ReadAhead} from "../readAhead"
+import {ElementBody} from "./elementBody"
+import {XmlElement} from "../../xmlElement"
+import {XmlAttribute} from "../../xmlAttribute"
 
-class ElementDetector{
+export class ElementDetector{
 
     constructor(){
         this._type = 'ElementDetector';

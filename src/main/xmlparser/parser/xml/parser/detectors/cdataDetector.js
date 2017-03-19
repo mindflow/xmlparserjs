@@ -1,6 +1,8 @@
-import {Logger} from "./coreutil"
+import {Logger} from "coreutil"
+import {XmlCdata} from "../../xmlCdata"
+import {ReadAhead} from "../readAhead"
 
-class CdataDetector{
+export class CdataDetector{
 
     constructor(){
         this._type = 'CdataDetector';
