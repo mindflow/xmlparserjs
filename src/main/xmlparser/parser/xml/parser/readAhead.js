@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 export class ReadAhead{
 
     static read(value, matcher, cursor, ignoreWhitespace = false){

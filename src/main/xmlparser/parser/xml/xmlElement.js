@@ -1,6 +1,7 @@
-import {Logger, List, Map} from "coreutil"
-import {XmlCdata} from "./xmlCdata"
+/* jshint esversion: 6 */
 
+import {Logger, List, Map} from "coreutil";
+import {XmlCdata} from "./xmlCdata";
 
 export class XmlElement{
 
@@ -21,7 +22,7 @@ export class XmlElement{
     }
 
     getFullName() {
-        if(this._namespace == null){
+        if(this._namespace === null){
             return this._name;
         }
         return this._namespace + ':' + this._name;
@@ -110,7 +111,7 @@ export class XmlElement{
         let result = '';
         this._attributes.forEach(function (key,attribute,parent) {
             result = result + ' ' + attribute.getName();
-            if(attribute.getValue() != null){
+            if(attribute.getValue() !== null){
                 result = result + '="' + attribute.getValue() + '"';
              }
              return true;

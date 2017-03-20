@@ -1,5 +1,7 @@
-import {Logger, Map, StringUtils} from "coreutil"
-import {ReadAhead} from "../readAhead"
+/* jshint esversion: 6 */
+
+import {Logger, Map, StringUtils} from "coreutil";
+import {ReadAhead} from "../readAhead";
 
 export class ElementBody{
 
@@ -41,7 +43,7 @@ export class ElementBody{
         }
         nameEndpos = cursor-1;
         this._name = xml.substring(nameStartpos, nameEndpos+1);
-        if(namespaceStartpos != null && namespaceEndpos != null){
+        if(namespaceStartpos !== null && namespaceEndpos !== null){
                 this._namespace = xml.substring(namespaceStartpos, namespaceEndpos+1);
         }
         cursor = this.detectAttributes(depth,xml,cursor);

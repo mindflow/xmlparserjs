@@ -1,4 +1,6 @@
-import {DomScaffold} from "./parser/domScaffold"
+/* jshint esversion: 6 */
+
+import {DomScaffold} from "./parser/domScaffold";
 
 export class DomTree{
 

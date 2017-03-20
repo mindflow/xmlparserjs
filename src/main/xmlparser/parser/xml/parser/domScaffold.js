@@ -1,11 +1,12 @@
-import {List} from "coreutil"
-import {ElementDetector} from "./detectors/elementDetector"
-import {CdataDetector} from "./detectors/cdataDetector"
-import {ClosingElementDetector} from "./detectors/closingElementDetector"
-import {XmlCursor} from "./xmlCursor"
+/* jshint esversion: 6 */
+
+import {List} from "coreutil";
+import {ElementDetector} from "./detectors/elementDetector";
+import {CdataDetector} from "./detectors/cdataDetector";
+import {ClosingElementDetector} from "./detectors/closingElementDetector";
+import {XmlCursor} from "./xmlCursor";
 
 export class DomScaffold{
-
 
     constructor(){
         this._element = null;
@@ -47,7 +48,7 @@ export class DomScaffold{
             return false;
         },this);
 
-        if(elementDetector == null){
+        if(elementDetector === null){
             xmlCursor.cursor++;
             coreutil.Logger.warn('WARN: No handler was found searching from position: ' + xmlCursor.cursor);
         }
@@ -68,7 +69,7 @@ export class DomScaffold{
     }
 
     getTree(parentNotifyResult){
-        if(this._element == null){
+        if(this._element === null){
             return null;
         }
 
@@ -76,7 +77,7 @@ export class DomScaffold{
 
         this._childDomScaffolds.forEach(function(childDomScaffold,parent) {
             let childElement = childDomScaffold.getTree(notifyResult);
-            if(childElement != null){
+            if(childElement !== null){
                 parent._element.getChildElements().add(childElement);
             }
             return true;
@@ -86,7 +87,7 @@ export class DomScaffold{
     }
 
     notifyElementCreatedListener(element, parentNotifyResult) {
-        if(this._elementCreatedListener != null){
+        if(this._elementCreatedListener !== null){
             return this._elementCreatedListener.elementCreated(element, parentNotifyResult);
         }
         return null;

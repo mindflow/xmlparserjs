@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 export class XmlCursor{
 
     constructor(xml, cursor, parentDomScaffold){

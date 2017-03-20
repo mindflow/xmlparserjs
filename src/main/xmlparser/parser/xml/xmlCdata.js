@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 import {Logger} from "coreutil"
 
 export class XmlCdata{

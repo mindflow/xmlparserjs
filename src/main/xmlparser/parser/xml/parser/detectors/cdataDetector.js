@@ -1,6 +1,7 @@
-import {Logger} from "coreutil"
-import {XmlCdata} from "../../xmlCdata"
-import {ReadAhead} from "../readAhead"
+/* jshint esversion: 6 */
+import {Logger} from "coreutil";
+import {XmlCdata} from "../../xmlCdata";
+import {ReadAhead} from "../readAhead";
 
 export class CdataDetector{
 
@@ -46,7 +47,7 @@ export class CdataDetector{
             cursor ++;
         }
         Logger.debug(depth, 'Cdata end at ' + (cursor-1));
-        if(parentDomScaffold == null){
+        if(parentDomScaffold === null){
             Logger.error('ERR: Content not allowed on root level in xml document');
             return -1;
         }
