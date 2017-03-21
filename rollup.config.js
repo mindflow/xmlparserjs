@@ -1,4 +1,5 @@
 import multiEntry from 'rollup-plugin-multi-entry';
+import babel from 'rollup-plugin-babel';
 
 export default {
     moduleName: 'xmlparser',
@@ -11,6 +12,7 @@ export default {
         coreutil: "coreutil"
     },
     plugins: [
-        multiEntry()
+        multiEntry(),
+        babel()
     ]
 }

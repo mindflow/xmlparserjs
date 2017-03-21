@@ -1,20 +1,21 @@
 {
-    "name": "xmlparser",
-    "version": "1.0.0",
-    "description": "XML Parser JS",
-    "main":"./umd/xmlparser.js",
-    "scripts": {
-        "build": "node ./node_modules/rollup/bin/rollup -c",
-        "test": "node ./node_modules/jasmine-node/bin/jasmine-node ./src/test"
-    },
-    "author": "Toby Nilsen",
-    "license": "MIT",
-    "dependencies": {
-        "coreutil": "file:../coreutiljs"
-    },
-    "devDependencies": {
-        "rollup": "^0.41.6",
-        "rollup-plugin-multi-entry": "^2.0.1",
-        "coreutil": "file:../coreutiljs"
-    }
+  "name": "xmlparser",
+  "version": "1.0.0",
+  "description": "XML Parser JS",
+  "main": "./umd/xmlparser.js",
+  "scripts": {
+    "build": "node ./node_modules/rollup/bin/rollup -c",
+    "test": "node -r coreutil ./node_modules/jasmine-node/bin/jasmine-node ./src/test"
+  },
+  "author": "Toby Nilsen",
+  "license": "MIT",
+  "dependencies": {
+    "coreutil": "^1.0.0"
+  },
+  "devDependencies": {
+    "coreutil": "^1.0.0",
+    "rollup": "^0.41.6",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-multi-entry": "^2.0.1"
+  }
 }

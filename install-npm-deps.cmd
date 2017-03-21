@@ -5,6 +5,15 @@ CMD /C npm install rollup
 echo "Installing rollup multi entry"
 CMD /C npm install rollup-plugin-multi-entry
 
+echo "Installing rollup babel plugin"
+CMD /C npm install rollup-plugin-babel
+
+echo "Installing rollup babel latest preset"
+CMD /C npm install babel-cli babel-preset-latest
+
+echo "Installing rollup external helpers"
+CMD /C npm install babel-plugin-external-helpers
+
 echo "Installing jasmine-node"
 CMD /C npm install jasmine-node
 
