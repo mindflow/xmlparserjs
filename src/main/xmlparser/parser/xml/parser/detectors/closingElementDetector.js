@@ -8,8 +8,9 @@ import {XmlAttribute} from "../../xmlAttribute";
 
 export class ClosingElementDetector{
 
-    constructor(){
+    constructor(namespaceUriMap){
         this._type = 'ClosingElementDetector';
+        this._namespaceUriMap = namespaceUriMap;
         this._found = false;
         this._element = null;
     }
@@ -31,10 +32,10 @@ export class ClosingElementDetector{
         let elementBody = new ElementBody();
         let endpos = ClosingElementDetector.detectClosingElement(depth, xmlCursor.xml, xmlCursor.cursor,elementBody);
         if(endpos != -1){
-            this._element = new XmlElement(elementBody.getName(), elementBody.getNamespace(), true);
+            this._element = new XmlElement(elementBody.getName(), elementBody.getNamespace(), this._namespaceUriMap, true);
 
             elementBody.getAttributes().forEach(function(attributeName,attributeValue,parent){
-                parent._element.setAttribute(attributeName,new XmlAttribute(attributeName, attributeValue));
+                parent._element.setAttribute(attributeName,attributeValue);
                 return true;
             },this);
 

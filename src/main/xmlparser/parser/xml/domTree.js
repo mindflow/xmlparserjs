@@ -1,6 +1,7 @@
 /* jshint esversion: 6 */
 
 import {DomScaffold} from "./parser/domScaffold";
+import {Map} from "coreutil";
 
 export class DomTree{
 
@@ -19,7 +20,7 @@ export class DomTree{
     }
 
     load(){
-        let domScaffold = new DomScaffold();
+        let domScaffold = new DomScaffold(new Map());
         domScaffold.load(this._xml,0,this._elementCreatedListener);
         this._rootElement = domScaffold.getTree();
     }

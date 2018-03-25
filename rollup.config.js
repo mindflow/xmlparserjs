@@ -3,9 +3,11 @@ import babel from 'rollup-plugin-babel';
 
 export default {
     moduleName: 'xmlparser',
-    entry: "src/main/**/*.js",
-    dest: "umd/xmlparser.js",
-    format: "umd",
+    input: "src/main/**/*.js",
+    output: {
+        file: "umd/xmlparser.js",
+        format: "umd"
+    },
     sourceMap: "inline",
     external: [ "coreutil" ],
     globals:{

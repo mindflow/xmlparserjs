@@ -5,12 +5,13 @@ import {XmlCdata} from "./xmlCdata";
 
 export class XmlElement{
 
-	constructor(name, namespace, selfClosing, childElements){
+	constructor(name, namespace, namespaceUri, selfClosing){
         this._name = name;
         this._namespace = namespace;
         this._selfClosing = selfClosing;
         this._childElements = new List();
         this._attributes = new Map();
+        this._namespaceUri = namespaceUri;
     }
 
     getName() {
@@ -21,10 +22,15 @@ export class XmlElement{
         return this._namespace;
     }
 
+    getNamespaceUri(){
+        return this._namespaceUri;
+    }
+
     getFullName() {
         if(this._namespace === null){
             return this._name;
         }
+
         return this._namespace + ':' + this._name;
     }
 
@@ -110,7 +116,11 @@ export class XmlElement{
     readAttributes(){
         let result = '';
         this._attributes.forEach(function (key,attribute,parent) {
-            result = result + ' ' + attribute.getName();
+            let fullname = attribute.getName();
+            if(attribute.getNamespace() !== null) {
+                fullname = attribute.getNamespace() + ":" + attribute.getName();
+            }
+            result = result + ' ' + fullname;
             if(attribute.getValue() !== null){
                 result = result + '="' + attribute.getValue() + '"';
              }

@@ -2,8 +2,9 @@
 
 export class XmlAttribute {
 
-  constructor(name,value) {
+  constructor(name,namespace,value) {
       this._name = name;
+      this._namespace = namespace;
       this._value = value;
   }
 
@@ -13,6 +14,14 @@ export class XmlAttribute {
 
   setName(val){
       this._name = val;
+  }
+
+  getNamespace(){
+    return this._namespace;
+  }
+
+  setNamespace(val){
+    this._namespace = val;
   }
 
   getValue(){

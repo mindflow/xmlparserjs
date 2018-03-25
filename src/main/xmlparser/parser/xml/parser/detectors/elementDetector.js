@@ -8,8 +8,9 @@ import {XmlAttribute} from "../../xmlAttribute";
 
 export class ElementDetector{
 
-    constructor(){
+    constructor(namespaceUriMap){
         this._type = 'ElementDetector';
+        this._namespaceUriMap = namespaceUriMap;
         this._hasChildren = false;
         this._found = false;
         this._xmlCursor = null;
@@ -39,10 +40,15 @@ export class ElementDetector{
         let endpos = ElementDetector.detectOpenElement(depth, xmlCursor.xml, xmlCursor.cursor,elementBody);
         if(endpos != -1) {
 
-            this._element = new XmlElement(elementBody.getName(), elementBody.getNamespace(), false);
+            let namespaceUri = null;
+            if(elementBody.getNamespace() !== null && elementBody.getNamespace() !== undefined){
+                namespaceUri = this._namespaceUriMap.get(elementBody.getNamespace());
+            }
+
+            this._element = new XmlElement(elementBody.getName(), elementBody.getNamespace(), namespaceUri, false);
 
             elementBody.getAttributes().forEach(function(attributeName,attributeValue,parent){
-                parent._element.getAttributes().set(attributeName,new XmlAttribute(attributeName, attributeValue));
+                parent._element.getAttributes().set(attributeName,attributeValue);
                 return true;
             },this);
 

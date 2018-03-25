@@ -5,17 +5,22 @@
   "main": "./umd/xmlparser.js",
   "scripts": {
     "build": "node ./node_modules/rollup/bin/rollup -c",
-    "test": "node -r coreutil ./node_modules/jasmine-node/bin/jasmine-node ./src/test"
+    "test": "jasmine"
   },
   "author": "Toby Nilsen",
   "license": "MIT",
   "dependencies": {
-    "coreutil": "^1.0.0"
+    "babel-cli": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-latest": "^6.24.1",
+    "jasmine-node": "^1.14.5"
   },
   "devDependencies": {
-    "coreutil": "^1.0.0",
-    "rollup": "^0.41.6",
-    "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-multi-entry": "^2.0.1"
+    "coreutil": "file:../coreutiljs",
+    "jasmine": "^3.1.0",
+    "rollup": "^0.57.1",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-multi-entry": "^2.0.2"
   }
 }

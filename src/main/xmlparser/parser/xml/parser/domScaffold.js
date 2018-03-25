@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 
-import {List} from "coreutil";
+import {Map, List} from "coreutil";
 import {ElementDetector} from "./detectors/elementDetector";
 import {CdataDetector} from "./detectors/cdataDetector";
 import {ClosingElementDetector} from "./detectors/closingElementDetector";
@@ -8,14 +8,15 @@ import {XmlCursor} from "./xmlCursor";
 
 export class DomScaffold{
 
-    constructor(){
+    constructor(namespaceUriMap){
+        this._namespaceUriMap = namespaceUriMap;
         this._element = null;
         this._childDomScaffolds = new List();
         this._detectors = new List();
         this._elementCreatedListener = null;
-        this._detectors.add(new ElementDetector());
+        this._detectors.add(new ElementDetector(this._namespaceUriMap));
         this._detectors.add(new CdataDetector());
-        this._detectors.add(new ClosingElementDetector());
+        this._detectors.add(new ClosingElementDetector(this._namespaceUriMap));
     }
 
     getElement() {
@@ -56,9 +57,16 @@ export class DomScaffold{
         this._element = elementDetector.createElement();
 
         if(elementDetector instanceof ElementDetector && elementDetector.hasChildren()) {
+            let namespaceUriMap = new Map();
+            namespaceUriMap.addAll(this._namespaceUriMap);
+            this._element.getAttributes().forEach(function(name,curAttribute,parent){
+                if("xmlns" === curAttribute.getNamespace()){
+                    namespaceUriMap.set(curAttribute.getName(),curAttribute.getValue());
+                }
+            },this);
             while(!elementDetector.stop(depth + 1) && xmlCursor.cursor < xmlCursor.xml.length){
                 let previousParentScaffold = xmlCursor.parentDomScaffold;
-                let childScaffold = new DomScaffold();
+                let childScaffold = new DomScaffold(namespaceUriMap);
                 xmlCursor.parentDomScaffold = childScaffold;
                 childScaffold.loadDepth(depth+1, xmlCursor, this._elementCreatedListener);
                 this._childDomScaffolds.add(childScaffold);
@@ -87,7 +95,7 @@ export class DomScaffold{
     }
 
     notifyElementCreatedListener(element, parentNotifyResult) {
-        if(this._elementCreatedListener !== null){
+        if(this._elementCreatedListener !== null && this._elementCreatedListener !== undefined){
             return this._elementCreatedListener.elementCreated(element, parentNotifyResult);
         }
         return null;
