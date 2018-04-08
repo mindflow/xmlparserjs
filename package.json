@@ -2,10 +2,9 @@
   "name": "xmlparser",
   "version": "1.0.0",
   "description": "XML Parser JS",
-  "main": "./umd/xmlparser.js",
+  "main": "./es_module/xmlparser.mjs",
   "scripts": {
-    "build": "node ./node_modules/rollup/bin/rollup -c",
-    "test": "jasmine"
+    "build": "node ./node_modules/rollup/bin/rollup -c"
   },
   "author": "Toby Nilsen",
   "license": "MIT",
@@ -14,11 +13,12 @@
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-latest": "^6.24.1",
+    "jasmine-console-reporter": "^2.0.1",
     "jasmine-node": "^1.14.5"
   },
   "devDependencies": {
-    "coreutil": "file:../coreutiljs",
     "jasmine": "^3.1.0",
+    "jasmine-console-reporter": "^2.0.1",
     "rollup": "^0.57.1",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-multi-entry": "^2.0.2"

@@ -1,10 +1,10 @@
 /* jshint esversion: 6 */
 
 import {Logger} from "coreutil";
-import {XmlElement} from "../../xmlElement";
-import {ReadAhead} from "../readAhead";
-import {ElementBody} from "./elementBody";
-import {XmlAttribute} from "../../xmlAttribute";
+import {XmlElement} from "../../xmlElement.mjs";
+import {ReadAhead} from "../readAhead.mjs";
+import {ElementBody} from "./elementBody.mjs";
+import {XmlAttribute} from "../../xmlAttribute.mjs";
 
 export class ClosingElementDetector{
 

@@ -1,7 +1,7 @@
 /* jshint esversion: 6 */
 
 import {Logger, List, Map} from "coreutil";
-import {XmlCdata} from "./xmlCdata";
+import {XmlCdata} from "./xmlCdata.mjs";
 
 export class XmlElement{
 

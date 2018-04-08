@@ -1,0 +1,1 @@
+node --experimental-modules .\src\test\xmlparser\xmlTestSpec.mjs

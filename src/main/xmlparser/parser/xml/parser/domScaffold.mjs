@@ -1,10 +1,10 @@
 /* jshint esversion: 6 */
 
-import {Map, List} from "coreutil";
-import {ElementDetector} from "./detectors/elementDetector";
-import {CdataDetector} from "./detectors/cdataDetector";
-import {ClosingElementDetector} from "./detectors/closingElementDetector";
-import {XmlCursor} from "./xmlCursor";
+import {Logger, Map, List} from "coreutil";
+import {ElementDetector} from "./detectors/elementDetector.mjs";
+import {CdataDetector} from "./detectors/cdataDetector.mjs";
+import {ClosingElementDetector} from "./detectors/closingElementDetector.mjs";
+import {XmlCursor} from "./xmlCursor.mjs";
 
 export class DomScaffold{
 
@@ -29,18 +29,18 @@ export class DomScaffold{
     }
 
     loadDepth(depth, xmlCursor, elementCreatedListener){
-        coreutil.Logger.showPos(xmlCursor.xml, xmlCursor.cursor);
-        coreutil.Logger.debug(depth, 'Starting DomScaffold');
+        Logger.showPos(xmlCursor.xml, xmlCursor.cursor);
+        Logger.debug(depth, 'Starting DomScaffold');
         this._elementCreatedListener = elementCreatedListener;
 
         if(xmlCursor.eof()){
-            coreutil.Logger.debug(depth, 'Reached eof. Exiting');
+            Logger.debug(depth, 'Reached eof. Exiting');
             return false;
         }
 
         var elementDetector = null;
         this._detectors.forEach(function(curElementDetector,parent){
-            coreutil.Logger.debug(depth, 'Starting ' + curElementDetector.getType());
+            Logger.debug(depth, 'Starting ' + curElementDetector.getType());
             curElementDetector.detect(depth + 1,xmlCursor);
             if(!curElementDetector.isFound()){
                 return true;
@@ -51,7 +51,7 @@ export class DomScaffold{
 
         if(elementDetector === null){
             xmlCursor.cursor++;
-            coreutil.Logger.warn('WARN: No handler was found searching from position: ' + xmlCursor.cursor);
+            Logger.warn('WARN: No handler was found searching from position: ' + xmlCursor.cursor);
         }
 
         this._element = elementDetector.createElement();
@@ -73,7 +73,7 @@ export class DomScaffold{
                 xmlCursor.parentDomScaffold = previousParentScaffold;
             }
         }
-        coreutil.Logger.showPos(xmlCursor.xml, xmlCursor.cursor);
+        Logger.showPos(xmlCursor.xml, xmlCursor.cursor);
     }
 
     getTree(parentNotifyResult){

@@ -1,8 +1,8 @@
 /* jshint esversion: 6 */
 
 import {Logger, Map, StringUtils} from "coreutil";
-import {ReadAhead} from "../readAhead";
-import {XmlAttribute} from "../../xmlAttribute";
+import {ReadAhead} from "../readAhead.mjs";
+import {XmlAttribute} from "../../xmlAttribute.mjs";
 
 export class ElementBody{
 
@@ -69,7 +69,7 @@ export class ElementBody{
     detectNextStartAttribute(depth, xml, cursor){
         while(xml.charAt(cursor) == ' ' && cursor < xml.length){
             cursor ++;
-            if(StringUtils.isInAlphabet(xml.charAt(cursor))){
+            if(StringUtils.isInAlphabet(xml.charAt(cursor)) || xml.charAt(cursor) === "-"){
                 return cursor;
             }
         }
@@ -77,12 +77,12 @@ export class ElementBody{
     }
 
     detectNextEndAttribute(depth, xml, cursor){
-        while(StringUtils.isInAlphabet(xml.charAt(cursor))){
+        while(StringUtils.isInAlphabet(xml.charAt(cursor)) || xml.charAt(cursor) === "-"){
             cursor ++;
         }
         if(xml.charAt(cursor) == ":"){
             cursor ++;
-            while(StringUtils.isInAlphabet(xml.charAt(cursor))){
+            while(StringUtils.isInAlphabet(xml.charAt(cursor)) || xml.charAt(cursor) === "-"){
                 cursor ++;
             }
         }

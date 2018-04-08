@@ -21,14 +21,11 @@ CMD /C ./node_modules/.bin/jasmine init
 echo "Installing jasmine-node"
 CMD /C npm install jasmine-node
 
-echo "Installing coreutil"
-CMD /C npm install ..\coreutiljs
+echo "Installing jasmine-console-reporter"
+CMD /C npm install jasmine-console-reporter
 
 echo "Build self"
 CMD /C npm run build
 
 echo "Install self"
 CMD /C npm install .
-
-echo "Test self"
-CMD /C npm run test
