@@ -1,10 +1,10 @@
 /* jshint esversion: 6 */
 
-import {Logger, Map, List} from "coreutil";
-import {ElementDetector} from "./detectors/elementDetector.mjs";
-import {CdataDetector} from "./detectors/cdataDetector.mjs";
-import {ClosingElementDetector} from "./detectors/closingElementDetector.mjs";
-import {XmlCursor} from "./xmlCursor.mjs";
+import {Logger, Map, List} from "coreutil_v1";
+import {ElementDetector} from "./detectors/elementDetector.js";
+import {CdataDetector} from "./detectors/cdataDetector.js";
+import {ClosingElementDetector} from "./detectors/closingElementDetector.js";
+import {XmlCursor} from "./xmlCursor.js";
 
 export class DomScaffold{
 

@@ -1,10 +1,10 @@
 /* jshint esversion: 6 */
 
-import {Logger} from "coreutil";
-import {ReadAhead} from "../readAhead.mjs";
-import {ElementBody} from "./elementBody.mjs";
-import {XmlElement} from "../../xmlElement.mjs";
-import {XmlAttribute} from "../../xmlAttribute.mjs";
+import {Logger} from "coreutil_v1";
+import {ReadAhead} from "../readAhead.js";
+import {ElementBody} from "./elementBody.js";
+import {XmlElement} from "../../xmlElement.js";
+import {XmlAttribute} from "../../xmlAttribute.js";
 
 export class ElementDetector{
 

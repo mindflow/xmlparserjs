@@ -1,7 +1,7 @@
 /* jshint esversion: 6 */
-import {Logger} from "coreutil";
-import {XmlCdata} from "../../xmlCdata.mjs";
-import {ReadAhead} from "../readAhead.mjs";
+import {Logger} from "coreutil_v1";
+import {XmlCdata} from "../../xmlCdata.js";
+import {ReadAhead} from "../readAhead.js";
 
 export class CdataDetector{
 

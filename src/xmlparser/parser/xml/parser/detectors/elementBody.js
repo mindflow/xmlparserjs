@@ -1,8 +1,8 @@
 /* jshint esversion: 6 */
 
-import {Logger, Map, StringUtils} from "coreutil";
-import {ReadAhead} from "../readAhead.mjs";
-import {XmlAttribute} from "../../xmlAttribute.mjs";
+import {Logger, Map, StringUtils} from "coreutil_v1";
+import {ReadAhead} from "../readAhead.js";
+import {XmlAttribute} from "../../xmlAttribute.js";
 
 export class ElementBody{
 

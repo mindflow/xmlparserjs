@@ -1,7 +1,7 @@
 /* jshint esversion: 6 */
 
-import {DomScaffold} from "./parser/domScaffold.mjs";
-import {Map} from "coreutil";
+import {DomScaffold} from "./parser/domScaffold.js";
+import {Map} from "coreutil_v1";
 
 export class DomTree{
 

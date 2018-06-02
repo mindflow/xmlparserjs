@@ -1,16 +1,31 @@
 import multiEntry from 'rollup-plugin-multi-entry';
-import babel from 'rollup-plugin-babel';
+import postprocess from 'rollup-plugin-postprocess';
 
-export default {
-    moduleName: 'xmlparser',
-    input: "src/main/**/*.mjs",
+export default [{
+    input: "src/**/*.js",
+    external: [ 'coreutil_v1' ],
     output: {
-        file: "es_module/xmlparser.mjs",
+        name: 'xmlparser_v1',
+        file: "bundle/jsm/xmlparser_v1.js",
+        sourcemap: "inline",
         format: "es"
     },
-    sourceMap: "inline",
     plugins: [
         multiEntry(),
-        babel()
+        postprocess([
+            [/(?<=import\s*(.*)\s*from\s*)['"]((?!.*[.]js).*)['"];/, '\'./$2.js\'']
+        ])
     ]
-}
+},{
+    input: "src/**/*.js",
+    external: [ 'coreutil_v1' ],
+    output: {
+        name: 'xmlparser_v1',
+        file: "bundle/cjs/xmlparser_v1.js",
+        sourcemap: "inline",
+        format: "cjs"
+    },
+    plugins: [
+        multiEntry()
+    ]
+}]
