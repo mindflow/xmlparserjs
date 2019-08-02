@@ -4,7 +4,6 @@ import {Logger} from "coreutil_v1";
 import {ReadAhead} from "../readAhead.js";
 import {ElementBody} from "./elementBody.js";
 import {XmlElement} from "../../xmlElement.js";
-import {XmlAttribute} from "../../xmlAttribute.js";
 
 export class ElementDetector{
 
@@ -84,7 +83,7 @@ export class ElementDetector{
         }
         cursor ++;
         cursor = elementBody.detectPositions(depth+1, xml, cursor);
-        if((cursor = ReadAhead.read(xml,'>',cursor)) == -1){
+        if((cursor = ReadAhead.read(xml,'>',cursor, true)) == -1){
             return -1;
         }
         return cursor;
@@ -96,7 +95,7 @@ export class ElementDetector{
         }
         cursor ++;
         cursor = new ElementBody().detectPositions(depth+1, xml, cursor);
-        if((cursor = ReadAhead.read(xml,'>',cursor)) == -1){
+        if((cursor = ReadAhead.read(xml,'>',cursor, true)) == -1){
             return -1;
         }
         return cursor;
