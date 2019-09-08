@@ -3,32 +3,32 @@
 export class XmlAttribute {
 
   constructor(name,namespace,value) {
-      this._name = name;
-      this._namespace = namespace;
-      this._value = value;
+      this.name = name;
+      this.namespace = namespace;
+      this.value = value;
   }
 
   getName(){
-      return this._name;
+      return this.name;
   }
 
   setName(val){
-      this._name = val;
+      this.name = val;
   }
 
   getNamespace(){
-    return this._namespace;
+    return this.namespace;
   }
 
   setNamespace(val){
-    this._namespace = val;
+    this.namespace = val;
   }
 
   getValue(){
-      return this._value;
+      return this.value;
   }
 
   setValue(val){
-      this._value = val;
+      this.value = val;
   }
 }

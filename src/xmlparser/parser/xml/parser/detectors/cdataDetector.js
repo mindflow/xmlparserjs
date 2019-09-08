@@ -6,32 +6,32 @@ import {ReadAhead} from "../readAhead.js";
 export class CdataDetector{
 
     constructor(){
-        this._type = 'CdataDetector';
-        this._value = null;
-        this._found = false;
+        this.type = 'CdataDetector';
+        this.value = null;
+        this.found = false;
     }
 
     isFound() {
-        return this._found;
+        return this.found;
     }
 
     getType() {
-        return this._type;
+        return this.type;
     }
 
     createElement() {
-        return new XmlCdata(this._value);
+        return new XmlCdata(this.value);
     }
 
     detect(depth, xmlCursor){
-        this._found = false;
-        this._value = null;
+        this.found = false;
+        this.value = null;
 
         let endPos = this.detectContent(depth, xmlCursor.xml, xmlCursor.cursor, xmlCursor.parentDomScaffold);
         if(endPos != -1) {
-            this._found = true;
+            this.found = true;
             this.hasChildren = false;
-            this._value = xmlCursor.xml.substring(xmlCursor.cursor,endPos);
+            this.value = xmlCursor.xml.substring(xmlCursor.cursor,endPos);
             xmlCursor.cursor = endPos;
         }
     }

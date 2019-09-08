@@ -9,22 +9,22 @@ import {XmlAttribute} from "../../xmlAttribute.js";
 export class ClosingElementDetector{
 
     constructor(namespaceUriMap){
-        this._type = 'ClosingElementDetector';
-        this._namespaceUriMap = namespaceUriMap;
-        this._found = false;
-        this._element = null;
+        this.type = 'ClosingElementDetector';
+        this.namespaceUriMap = namespaceUriMap;
+        this.found = false;
+        this.element = null;
     }
 
     createElement() {
-        return this._element;
+        return this.element;
     }
 
     getType() {
-        return this._type;
+        return this.type;
     }
 
     isFound() {
-        return this._found;
+        return this.found;
     }
 
     detect(depth, xmlCursor) {
@@ -32,15 +32,15 @@ export class ClosingElementDetector{
         let elementBody = new ElementBody();
         let endpos = ClosingElementDetector.detectClosingElement(depth, xmlCursor.xml, xmlCursor.cursor,elementBody);
         if(endpos != -1){
-            this._element = new XmlElement(elementBody.getName(), elementBody.getNamespace(), this._namespaceUriMap, true);
+            this.element = new XmlElement(elementBody.getName(), elementBody.getNamespace(), this.namespaceUriMap, true);
 
             elementBody.getAttributes().forEach(function(attributeName,attributeValue,parent){
-                parent._element.setAttribute(attributeName,attributeValue);
+                parent.element.setAttribute(attributeName,attributeValue);
                 return true;
             },this);
 
-            Logger.debug(depth, 'Found self closing tag <' + this._element.getFullName() + '/> from ' +  xmlCursor.cursor  + ' to ' + endpos);
-            this._found = true;
+            Logger.debug(depth, 'Found self closing tag <' + this.element.getFullName() + '/> from ' +  xmlCursor.cursor  + ' to ' + endpos);
+            this.found = true;
             xmlCursor.cursor = endpos + 1;
         }
     }

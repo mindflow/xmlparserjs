@@ -7,21 +7,21 @@ import {XmlAttribute} from "../../xmlAttribute.js";
 export class ElementBody{
 
     constructor(){
-        this._name = null;
-        this._namespace = null;
-        this._attributes = new Map();
+        this.name = null;
+        this.namespace = null;
+        this.attributes = new Map();
     }
 
     getName() {
-        return this._name;
+        return this.name;
     }
 
     getNamespace() {
-        return this._namespace;
+        return this.namespace;
     }
 
     getAttributes() {
-        return this._attributes;
+        return this.attributes;
     }
 
     detectPositions(depth, xml, cursor){
@@ -38,10 +38,10 @@ export class ElementBody{
             }
         }
         nameEndpos = cursor-1;
-        this._name = xml.substring(nameStartpos, nameEndpos+1);
-        if(this._name.indexOf(":") > -1){
-                this._namespace = this._name.split(":")[0];
-                this._name = this._name.split(":")[1];
+        this.name = xml.substring(nameStartpos, nameEndpos+1);
+        if(this.name.indexOf(":") > -1){
+                this.namespace = this.name.split(":")[0];
+                this.name = this.name.split(":")[1];
         }
         cursor = this.detectAttributes(depth,xml,cursor);
         return cursor;
@@ -96,7 +96,7 @@ export class ElementBody{
             fullname = namespace + ":" + name;
         }
         if((valuePos = ReadAhead.read(xml,'="',valuePos,true)) == -1){
-            this._attributes.set(fullname,new XmlAttribute(name,namespace,null));
+            this.attributes.set(fullname,new XmlAttribute(name,namespace,null));
             return cursor;
         }
         valuePos++;
@@ -106,9 +106,9 @@ export class ElementBody{
             valuePos++;
         }
         if(valuePos == cursor){
-            this._attributes.set(fullname, new XmlAttribute(name,namespace,''));
+            this.attributes.set(fullname, new XmlAttribute(name,namespace,''));
         }else{
-            this._attributes.set(fullname, new XmlAttribute(name,namespace,xml.substring(valueStartPos,valuePos)));
+            this.attributes.set(fullname, new XmlAttribute(name,namespace,xml.substring(valueStartPos,valuePos)));
         }
 
         Logger.debug(depth, 'Found attribute content ending at ' + (valuePos-1));

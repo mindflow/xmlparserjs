@@ -6,30 +6,30 @@ import {Map} from "coreutil_v1";
 export class DomTree{
 
     constructor(xml, elementCreatedListener) {
-        this._elementCreatedListener = elementCreatedListener;
-        this._xml = xml;
-        this._rootElement = null;
+        this.elementCreatedListener = elementCreatedListener;
+        this.xml = xml;
+        this.rootElement = null;
     }
 
     getRootElement() {
-        return this._rootElement;
+        return this.rootElement;
     }
 
     setRootElement(element) {
-        this._rootElement = element;
+        this.rootElement = element;
     }
 
     load(){
         let domScaffold = new DomScaffold(new Map());
-        domScaffold.load(this._xml,0,this._elementCreatedListener);
-        this._rootElement = domScaffold.getTree();
+        domScaffold.load(this.xml,0,this.elementCreatedListener);
+        this.rootElement = domScaffold.getTree();
     }
 
     dump(){
-        this._rootElement.dump();
+        this.rootElement.dump();
     }
 
     read(){
-        return this._rootElement.read();
+        return this.rootElement.read();
     }
 }

@@ -6,74 +6,74 @@ import {XmlCdata} from "./xmlCdata.js";
 export class XmlElement{
 
 	constructor(name, namespace, namespaceUri, selfClosing){
-        this._name = name;
-        this._namespace = namespace;
-        this._selfClosing = selfClosing;
-        this._childElements = new List();
-        this._attributes = new Map();
-        this._namespaceUri = namespaceUri;
+        this.name = name;
+        this.namespace = namespace;
+        this.selfClosing = selfClosing;
+        this.childElements = new List();
+        this.attributes = new Map();
+        this.namespaceUri = namespaceUri;
     }
 
     getName() {
-        return this._name;
+        return this.name;
     }
 
     getNamespace() {
-        return this._namespace;
+        return this.namespace;
     }
 
     getNamespaceUri(){
-        return this._namespaceUri;
+        return this.namespaceUri;
     }
 
     getFullName() {
-        if(this._namespace === null){
-            return this._name;
+        if(this.namespace === null){
+            return this.name;
         }
 
-        return this._namespace + ':' + this._name;
+        return this.namespace + ':' + this.name;
     }
 
     getAttributes(){
-        return this._attributes;
+        return this.attributes;
     }
 
     setAttributes(attributes){
-        this._attributes = attributes;
+        this.attributes = attributes;
     }
 
     setAttribute(key,value) {
-		this._attributes.set(key,value);
+		this.attributes.set(key,value);
 	}
 
 	getAttribute(key) {
-		return this._attributes.get(key);
+		return this.attributes.get(key);
 	}
 
     containsAttribute(key){
-        return this._attributes.contains(key);
+        return this.attributes.contains(key);
     }
 
 	clearAttribute(){
-		this._attributes = new Map();
+		this.attributes = new Map();
 	}
 
     getChildElements(){
-        return this._childElements;
+        return this.childElements;
     }
 
     setChildElements(elements) {
-        this._childElements = elements;
+        this.childElements = elements;
     }
 
     setText(text){
-        this._childElements = new List();
+        this.childElements = new List();
         this.addText(text);
     }
 
     addText(text){
         let textElement = new XmlCdata(text);
-        this._childElements.add(textElement);
+        this.childElements.add(textElement);
     }
 
     dump(){
@@ -86,12 +86,12 @@ export class XmlElement{
             spacer = spacer + ' ';
         }
 
-        if(this._selfClosing){
+        if(this.selfClosing){
             Logger.log(spacer + '<' + this.getFullName() + this.readAttributes() + '/>');
             return;
         }
         Logger.log(spacer + '<' + this.getFullName() + this.readAttributes() + '>');
-        this._childElements.forEach(function(childElement){
+        this.childElements.forEach(function(childElement){
             childElement.dumpLevel(level+1);
             return true;
         });
@@ -100,12 +100,12 @@ export class XmlElement{
 
     read(){
         let result = '';
-        if(this._selfClosing){
+        if(this.selfClosing){
             result = result + '<' + this.getFullName() + this.readAttributes() + '/>';
             return result;
         }
         result = result + '<' + this.getFullName() + this.readAttributes() + '>';
-        this._childElements.forEach(function(childElement){
+        this.childElements.forEach(function(childElement){
             result = result + childElement.read();
             return true;
         });
@@ -115,7 +115,7 @@ export class XmlElement{
 
     readAttributes(){
         let result = '';
-        this._attributes.forEach(function (key,attribute,parent) {
+        this.attributes.forEach(function (key,attribute,parent) {
             let fullname = attribute.getName();
             if(attribute.getNamespace() !== null) {
                 fullname = attribute.getNamespace() + ":" + attribute.getName();

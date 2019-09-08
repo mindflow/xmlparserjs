@@ -8,32 +8,32 @@ import {XmlElement} from "../../xmlElement.js";
 export class ElementDetector{
 
     constructor(namespaceUriMap){
-        this._type = 'ElementDetector';
-        this._namespaceUriMap = namespaceUriMap;
-        this._hasChildren = false;
-        this._found = false;
-        this._xmlCursor = null;
-        this._element = null;
+        this.type = 'ElementDetector';
+        this.namespaceUriMap = namespaceUriMap;
+        this.children = false;
+        this.found = false;
+        this.xmlCursor = null;
+        this.element = null;
     }
 
     createElement() {
-        return this._element;
+        return this.element;
     }
 
     getType() {
-        return this._type;
+        return this.type;
     }
 
     isFound() {
-        return this._found;
+        return this.found;
     }
 
     hasChildren() {
-        return this._hasChildren;
+        return this.children;
     }
 
     detect(depth, xmlCursor){
-        this._xmlCursor = xmlCursor;
+        this.xmlCursor = xmlCursor;
         Logger.debug(depth, 'Looking for opening element at position ' + xmlCursor.cursor);
         let elementBody = new ElementBody();
         let endpos = ElementDetector.detectOpenElement(depth, xmlCursor.xml, xmlCursor.cursor,elementBody);
@@ -41,37 +41,37 @@ export class ElementDetector{
 
             let namespaceUri = null;
             if(elementBody.getNamespace() !== null && elementBody.getNamespace() !== undefined){
-                namespaceUri = this._namespaceUriMap.get(elementBody.getNamespace());
+                namespaceUri = this.namespaceUriMap.get(elementBody.getNamespace());
             }
 
-            this._element = new XmlElement(elementBody.getName(), elementBody.getNamespace(), namespaceUri, false);
+            this.element = new XmlElement(elementBody.getName(), elementBody.getNamespace(), namespaceUri, false);
 
             elementBody.getAttributes().forEach(function(attributeName,attributeValue,parent){
-                parent._element.getAttributes().set(attributeName,attributeValue);
+                parent.element.getAttributes().set(attributeName,attributeValue);
                 return true;
             },this);
 
-            Logger.debug(depth, 'Found opening tag <' + this._element.getFullName() + '> from ' +  xmlCursor.cursor  + ' to ' + endpos);
+            Logger.debug(depth, 'Found opening tag <' + this.element.getFullName() + '> from ' +  xmlCursor.cursor  + ' to ' + endpos);
             xmlCursor.cursor = endpos + 1;
 
             if(!this.stop(depth)){
-                this._hasChildren = true;
+                this.children = true;
             }
-            this._found = true;
+            this.found = true;
         }
     }
 
     stop(depth){
-        Logger.debug(depth, 'Looking for closing element at position ' + this._xmlCursor.cursor);
-        let closingElement = ElementDetector.detectEndElement(depth, this._xmlCursor.xml, this._xmlCursor.cursor);
+        Logger.debug(depth, 'Looking for closing element at position ' + this.xmlCursor.cursor);
+        let closingElement = ElementDetector.detectEndElement(depth, this.xmlCursor.xml, this.xmlCursor.cursor);
         if(closingElement != -1){
-            let closingTagName =  this._xmlCursor.xml.substring(this._xmlCursor.cursor+2,closingElement);
-            Logger.debug(depth, 'Found closing tag </' + closingTagName + '> from ' +  this._xmlCursor.cursor  + ' to ' + closingElement);
+            let closingTagName =  this.xmlCursor.xml.substring(this.xmlCursor.cursor+2,closingElement);
+            Logger.debug(depth, 'Found closing tag </' + closingTagName + '> from ' +  this.xmlCursor.cursor  + ' to ' + closingElement);
 
-            if(this._element.getFullName() != closingTagName){
-                Logger.error('ERR: Mismatch between opening tag <' + this._element.getFullName() + '> and closing tag </' + closingTagName + '> When exiting to parent elemnt');
+            if(this.element.getFullName() != closingTagName){
+                Logger.error('ERR: Mismatch between opening tag <' + this.element.getFullName() + '> and closing tag </' + closingTagName + '> When exiting to parent elemnt');
             }
-            this._xmlCursor.cursor = closingElement +1;
+            this.xmlCursor.cursor = closingElement +1;
             return true;
         }
         return false;

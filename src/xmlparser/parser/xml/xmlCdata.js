@@ -5,15 +5,15 @@ import {Logger} from "coreutil_v1"
 export class XmlCdata{
 
 	constructor(value){
-        this._value = value;
+        this.value = value;
     }
 
     setValue(value) {
-        this._value = value;
+        this.value = value;
     }
 
     getValue() {
-        return this._value;
+        return this.value;
     }
 
     dump(){
@@ -26,11 +26,11 @@ export class XmlCdata{
             spacer = spacer + ' ';
         }
 
-        Logger.log(spacer + this._value);
+        Logger.log(spacer + this.value);
         return;
     }
 
     read(){
-        return this._value;
+        return this.value;
     }
 }
