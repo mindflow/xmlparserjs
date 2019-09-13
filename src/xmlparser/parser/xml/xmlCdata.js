@@ -2,6 +2,8 @@
 
 import {Logger} from "coreutil_v1"
 
+const LOG = new Logger("XmlCdata");
+
 export class XmlCdata{
 
 	constructor(value){
@@ -26,7 +28,7 @@ export class XmlCdata{
             spacer = spacer + ' ';
         }
 
-        Logger.log(spacer + this.value);
+        LOG.info(spacer + this.value);
         return;
     }
 

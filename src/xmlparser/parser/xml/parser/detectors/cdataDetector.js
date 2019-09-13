@@ -3,6 +3,8 @@ import {Logger} from "coreutil_v1";
 import {XmlCdata} from "../../xmlCdata.js";
 import {ReadAhead} from "../readAhead.js";
 
+const LOG = new Logger("CdataDetector");
+
 export class CdataDetector{
 
     constructor(){
@@ -37,21 +39,21 @@ export class CdataDetector{
     }
 
     detectContent(depth, xml, cursor, parentDomScaffold) {
-        Logger.debug(depth, 'Cdata start at ' + cursor);
+        LOG.debug(depth, 'Cdata start at ' + cursor);
         let internalStartPos = cursor;
         if(!CdataDetector.isContent(depth, xml, cursor)){
-            Logger.debug(depth, 'No Cdata found');
+            LOG.debug(depth, 'No Cdata found');
             return -1;
         }
         while(CdataDetector.isContent(depth, xml, cursor) && cursor < xml.length){
             cursor ++;
         }
-        Logger.debug(depth, 'Cdata end at ' + (cursor-1));
+        LOG.debug(depth, 'Cdata end at ' + (cursor-1));
         if(parentDomScaffold === null){
-            Logger.error('ERR: Content not allowed on root level in xml document');
+            LOG.error('ERR: Content not allowed on root level in xml document');
             return -1;
         }
-        Logger.debug(depth, 'Cdata found value is ' + xml.substring(internalStartPos,cursor));
+        LOG.debug(depth, 'Cdata found value is ' + xml.substring(internalStartPos,cursor));
         return cursor;
     }
 

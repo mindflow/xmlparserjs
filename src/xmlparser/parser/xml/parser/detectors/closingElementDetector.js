@@ -6,6 +6,8 @@ import {ReadAhead} from "../readAhead.js";
 import {ElementBody} from "./elementBody.js";
 import {XmlAttribute} from "../../xmlAttribute.js";
 
+const LOG = new Logger("ClosingElementDetector");
+
 export class ClosingElementDetector{
 
     constructor(namespaceUriMap){
@@ -28,7 +30,7 @@ export class ClosingElementDetector{
     }
 
     detect(depth, xmlCursor) {
-        Logger.debug(depth, 'Looking for self closing element at position ' + xmlCursor.cursor);
+        LOG.debug(depth, 'Looking for self closing element at position ' + xmlCursor.cursor);
         let elementBody = new ElementBody();
         let endpos = ClosingElementDetector.detectClosingElement(depth, xmlCursor.xml, xmlCursor.cursor,elementBody);
         if(endpos != -1){
@@ -39,7 +41,7 @@ export class ClosingElementDetector{
                 return true;
             },this);
 
-            Logger.debug(depth, 'Found self closing tag <' + this.element.getFullName() + '/> from ' +  xmlCursor.cursor  + ' to ' + endpos);
+            LOG.debug(depth, 'Found self closing tag <' + this.element.getFullName() + '/> from ' +  xmlCursor.cursor  + ' to ' + endpos);
             this.found = true;
             xmlCursor.cursor = endpos + 1;
         }

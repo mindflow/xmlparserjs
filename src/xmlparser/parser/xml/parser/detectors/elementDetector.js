@@ -5,6 +5,8 @@ import {ReadAhead} from "../readAhead.js";
 import {ElementBody} from "./elementBody.js";
 import {XmlElement} from "../../xmlElement.js";
 
+const LOG = new Logger("ElementDetector");
+
 export class ElementDetector{
 
     constructor(namespaceUriMap){
@@ -34,7 +36,7 @@ export class ElementDetector{
 
     detect(depth, xmlCursor){
         this.xmlCursor = xmlCursor;
-        Logger.debug(depth, 'Looking for opening element at position ' + xmlCursor.cursor);
+        LOG.debug(depth, 'Looking for opening element at position ' + xmlCursor.cursor);
         let elementBody = new ElementBody();
         let endpos = ElementDetector.detectOpenElement(depth, xmlCursor.xml, xmlCursor.cursor,elementBody);
         if(endpos != -1) {
@@ -51,7 +53,7 @@ export class ElementDetector{
                 return true;
             },this);
 
-            Logger.debug(depth, 'Found opening tag <' + this.element.getFullName() + '> from ' +  xmlCursor.cursor  + ' to ' + endpos);
+            LOG.debug(depth, 'Found opening tag <' + this.element.getFullName() + '> from ' +  xmlCursor.cursor  + ' to ' + endpos);
             xmlCursor.cursor = endpos + 1;
 
             if(!this.stop(depth)){
@@ -62,14 +64,14 @@ export class ElementDetector{
     }
 
     stop(depth){
-        Logger.debug(depth, 'Looking for closing element at position ' + this.xmlCursor.cursor);
+        LOG.debug(depth, 'Looking for closing element at position ' + this.xmlCursor.cursor);
         let closingElement = ElementDetector.detectEndElement(depth, this.xmlCursor.xml, this.xmlCursor.cursor);
         if(closingElement != -1){
             let closingTagName =  this.xmlCursor.xml.substring(this.xmlCursor.cursor+2,closingElement);
-            Logger.debug(depth, 'Found closing tag </' + closingTagName + '> from ' +  this.xmlCursor.cursor  + ' to ' + closingElement);
+            LOG.debug(depth, 'Found closing tag </' + closingTagName + '> from ' +  this.xmlCursor.cursor  + ' to ' + closingElement);
 
             if(this.element.getFullName() != closingTagName){
-                Logger.error('ERR: Mismatch between opening tag <' + this.element.getFullName() + '> and closing tag </' + closingTagName + '> When exiting to parent elemnt');
+                LOG.error('ERR: Mismatch between opening tag <' + this.element.getFullName() + '> and closing tag </' + closingTagName + '> When exiting to parent elemnt');
             }
             this.xmlCursor.cursor = closingElement +1;
             return true;

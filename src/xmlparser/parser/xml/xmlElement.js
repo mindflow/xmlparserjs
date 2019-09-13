@@ -3,6 +3,8 @@
 import {Logger, List, Map} from "coreutil_v1";
 import {XmlCdata} from "./xmlCdata.js";
 
+const LOG = new Logger("XmlElement");
+
 export class XmlElement{
 
 	constructor(name, namespace, namespaceUri, selfClosing){
@@ -87,15 +89,15 @@ export class XmlElement{
         }
 
         if(this.selfClosing){
-            Logger.log(spacer + '<' + this.getFullName() + this.readAttributes() + '/>');
+            LOG.info(spacer + '<' + this.getFullName() + this.readAttributes() + '/>');
             return;
         }
-        Logger.log(spacer + '<' + this.getFullName() + this.readAttributes() + '>');
+        LOG.info(spacer + '<' + this.getFullName() + this.readAttributes() + '>');
         this.childElements.forEach(function(childElement){
             childElement.dumpLevel(level+1);
             return true;
         });
-        Logger.log(spacer + '</' + this.getFullName() + '>');
+        LOG.info(spacer + '</' + this.getFullName() + '>');
     }
 
     read(){

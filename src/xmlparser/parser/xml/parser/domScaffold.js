@@ -6,6 +6,8 @@ import {CdataDetector} from "./detectors/cdataDetector.js";
 import {ClosingElementDetector} from "./detectors/closingElementDetector.js";
 import {XmlCursor} from "./xmlCursor.js";
 
+const LOG = new Logger("DomScaffold");
+
 export class DomScaffold{
 
     constructor(namespaceUriMap){
@@ -29,18 +31,18 @@ export class DomScaffold{
     }
 
     loadDepth(depth, xmlCursor, elementCreatedListener){
-        Logger.showPos(xmlCursor.xml, xmlCursor.cursor);
-        Logger.debug(depth, 'Starting DomScaffold');
+        LOG.showPos(xmlCursor.xml, xmlCursor.cursor);
+        LOG.debug(depth, 'Starting DomScaffold');
         this.elementCreatedListener = elementCreatedListener;
 
         if(xmlCursor.eof()){
-            Logger.debug(depth, 'Reached eof. Exiting');
+            LOG.debug(depth, 'Reached eof. Exiting');
             return false;
         }
 
         var elementDetector = null;
         this.detectors.forEach(function(curElementDetector,parent){
-            Logger.debug(depth, 'Starting ' + curElementDetector.getType());
+            LOG.debug(depth, 'Starting ' + curElementDetector.getType());
             curElementDetector.detect(depth + 1,xmlCursor);
             if(!curElementDetector.isFound()){
                 return true;
@@ -51,7 +53,7 @@ export class DomScaffold{
 
         if(elementDetector === null){
             xmlCursor.cursor++;
-            Logger.warn('WARN: No handler was found searching from position: ' + xmlCursor.cursor);
+            LOG.warn('WARN: No handler was found searching from position: ' + xmlCursor.cursor);
         }
 
         this.element = elementDetector.createElement();
@@ -73,7 +75,7 @@ export class DomScaffold{
                 xmlCursor.parentDomScaffold = previousParentScaffold;
             }
         }
-        Logger.showPos(xmlCursor.xml, xmlCursor.cursor);
+        LOG.showPos(xmlCursor.xml, xmlCursor.cursor);
     }
 
     getTree(parentNotifyResult){

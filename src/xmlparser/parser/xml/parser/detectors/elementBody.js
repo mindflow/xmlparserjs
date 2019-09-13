@@ -4,6 +4,8 @@ import {Logger, Map, StringUtils} from "coreutil_v1";
 import {ReadAhead} from "../readAhead.js";
 import {XmlAttribute} from "../../xmlAttribute.js";
 
+const LOG = new Logger("ElementBody");
+
 export class ElementBody{
 
     constructor(){
@@ -31,7 +33,7 @@ export class ElementBody{
             cursor ++;
         }
         if(xml.charAt(cursor) == ':'){
-            Logger.debug(depth, 'Found namespace');
+            LOG.debug(depth, 'Found namespace');
             cursor ++;
             while (StringUtils.isInAlphabet(xml.charAt(cursor)) && cursor < xml.length) {
                 cursor ++;
@@ -59,7 +61,7 @@ export class ElementBody{
                 name = name.split(":")[1];
             }  
 
-            Logger.debug(depth, 'Found attribute from ' + detectedAttrNameCursor + '  to ' + cursor);
+            LOG.debug(depth, 'Found attribute from ' + detectedAttrNameCursor + '  to ' + cursor);
             cursor = this.detectValue(name,namespace,depth, xml, cursor+1);
         }
         return cursor;
@@ -100,7 +102,7 @@ export class ElementBody{
             return cursor;
         }
         valuePos++;
-        Logger.debug(depth, 'Possible attribute value start at ' + valuePos);
+        LOG.debug(depth, 'Possible attribute value start at ' + valuePos);
         let valueStartPos = valuePos;
         while(this.isAttributeContent(depth, xml, valuePos)){
             valuePos++;
@@ -111,12 +113,12 @@ export class ElementBody{
             this.attributes.set(fullname, new XmlAttribute(name,namespace,xml.substring(valueStartPos,valuePos)));
         }
 
-        Logger.debug(depth, 'Found attribute content ending at ' + (valuePos-1));
+        LOG.debug(depth, 'Found attribute content ending at ' + (valuePos-1));
 
         if((valuePos = ReadAhead.read(xml,'"',valuePos,true)) != -1){
             valuePos++;
         }else{
-            Logger.error('Missing end quotes on attribute at position ' + valuePos);
+            LOG.error('Missing end quotes on attribute at position ' + valuePos);
         }
         return valuePos;
     }
