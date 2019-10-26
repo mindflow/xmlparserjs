@@ -1,12 +1,13 @@
 import multiEntry from 'rollup-plugin-multi-entry';
 import postprocess from 'rollup-plugin-postprocess';
+import { uglify } from "rollup-plugin-uglify";
 
 export default [{
     input: "src/**/*.js",
     external: [ 'coreutil_v1' ],
     output: {
         name: 'xmlparser_v1',
-        file: "bundle/jsm/xmlparser_v1.js",
+        file: "dist/jsm/xmlparser_v1.js",
         sourcemap: "inline",
         format: "es"
     },
@@ -21,7 +22,7 @@ export default [{
     external: [ 'coreutil_v1' ],
     output: {
         name: 'xmlparser_v1',
-        file: "bundle/cjs/xmlparser_v1.js",
+        file: "dist/cjs/xmlparser_v1.js",
         sourcemap: "inline",
         format: "cjs"
     },
