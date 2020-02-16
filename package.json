@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "xmlparser_v1",
   "version": "1.0.0",
   "description": "XML Parser JS",
