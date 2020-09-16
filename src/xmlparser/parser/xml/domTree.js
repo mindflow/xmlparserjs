@@ -11,10 +11,6 @@ export class DomTree{
         this.rootElement = null;
     }
 
-    getRootElement() {
-        return this.rootElement;
-    }
-
     setRootElement(element) {
         this.rootElement = element;
     }
