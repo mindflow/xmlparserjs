@@ -123,8 +123,8 @@ export class XmlElement{
                 fullname = attribute.getNamespace() + ":" + attribute.getName();
             }
             result = result + ' ' + fullname;
-            if(attribute.getValue() !== null){
-                result = result + '="' + attribute.getValue() + '"';
+            if(attribute.value !== null){
+                result = result + '="' + attribute.value + '"';
              }
              return true;
         },this);

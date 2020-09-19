@@ -23,12 +23,4 @@ export class XmlAttribute {
   setNamespace(val){
     this.namespace = val;
   }
-
-  getValue(){
-      return this.value;
-  }
-
-  setValue(val){
-      this.value = val;
-  }
 }

@@ -10,14 +10,6 @@ export class XmlCdata{
         this.value = value;
     }
 
-    setValue(value) {
-        this.value = value;
-    }
-
-    getValue() {
-        return this.value;
-    }
-
     dump(){
         this.dumpLevel(0);
     }

@@ -63,7 +63,7 @@ export class DomScaffold{
             namespaceUriMap.addAll(this.namespaceUriMap);
             this.element.getAttributes().forEach(function(name,curAttribute,parent){
                 if("xmlns" === curAttribute.getNamespace()){
-                    namespaceUriMap.set(curAttribute.getName(),curAttribute.getValue());
+                    namespaceUriMap.set(curAttribute.getName(),curAttribute.value);
                 }
             },this);
             while(!elementDetector.stop(depth + 1) && xmlCursor.cursor < xmlCursor.xml.length){
