@@ -17,10 +17,6 @@ export class CdataDetector{
         return this.found;
     }
 
-    getType() {
-        return this.type;
-    }
-
     createElement() {
         return new XmlCdata(this.value);
     }

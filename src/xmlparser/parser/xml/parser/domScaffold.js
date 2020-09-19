@@ -21,10 +21,6 @@ export class DomScaffold{
         this.detectors.add(new ClosingElementDetector(this.namespaceUriMap));
     }
 
-    getElement() {
-        return this.element;
-    }
-
     load(xml, cursor, elementCreatedListener){
         let xmlCursor = new XmlCursor(xml, cursor, null);
         this.loadDepth(1, xmlCursor, elementCreatedListener);
@@ -42,7 +38,7 @@ export class DomScaffold{
 
         var elementDetector = null;
         this.detectors.forEach(function(curElementDetector,parent){
-            LOG.debug(depth, 'Starting ' + curElementDetector.getType());
+            LOG.debug(depth, 'Starting ' + curElementDetector.type);
             curElementDetector.detect(depth + 1,xmlCursor);
             if(!curElementDetector.isFound()){
                 return true;
@@ -61,9 +57,9 @@ export class DomScaffold{
         if(elementDetector instanceof ElementDetector && elementDetector.hasChildren()) {
             let namespaceUriMap = new Map();
             namespaceUriMap.addAll(this.namespaceUriMap);
-            this.element.getAttributes().forEach(function(name,curAttribute,parent){
-                if("xmlns" === curAttribute.getNamespace()){
-                    namespaceUriMap.set(curAttribute.getName(),curAttribute.value);
+            this.element.attributes.forEach(function(name,curAttribute,parent){
+                if("xmlns" === curAttribute.namespace){
+                    namespaceUriMap.set(curAttribute.name,curAttribute.value);
                 }
             },this);
             while(!elementDetector.stop(depth + 1) && xmlCursor.cursor < xmlCursor.xml.length){
@@ -88,7 +84,7 @@ export class DomScaffold{
         this.childDomScaffolds.forEach(function(childDomScaffold,parent) {
             let childElement = childDomScaffold.getTree(notifyResult);
             if(childElement !== null){
-                parent.element.getChildElements().add(childElement);
+                parent.element.childElements.add(childElement);
             }
             return true;
         },this);

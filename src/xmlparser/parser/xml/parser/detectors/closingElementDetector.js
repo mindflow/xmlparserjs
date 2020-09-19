@@ -21,10 +21,6 @@ export class ClosingElementDetector{
         return this.element;
     }
 
-    getType() {
-        return this.type;
-    }
-
     isFound() {
         return this.found;
     }
@@ -34,14 +30,14 @@ export class ClosingElementDetector{
         let elementBody = new ElementBody();
         let endpos = ClosingElementDetector.detectClosingElement(depth, xmlCursor.xml, xmlCursor.cursor,elementBody);
         if(endpos != -1){
-            this.element = new XmlElement(elementBody.getName(), elementBody.getNamespace(), this.namespaceUriMap, true);
+            this.element = new XmlElement(elementBody.name, elementBody.namespace, this.namespaceUriMap, true);
 
-            elementBody.getAttributes().forEach(function(attributeName,attributeValue,parent){
+            elementBody.attributes.forEach(function(attributeName,attributeValue,parent){
                 parent.element.setAttribute(attributeName,attributeValue);
                 return true;
             },this);
 
-            LOG.debug(depth, 'Found self closing tag <' + this.element.getFullName() + '/> from ' +  xmlCursor.cursor  + ' to ' + endpos);
+            LOG.debug(depth, 'Found self closing tag <' + this.element.fullName + '/> from ' +  xmlCursor.cursor  + ' to ' + endpos);
             this.found = true;
             xmlCursor.cursor = endpos + 1;
         }

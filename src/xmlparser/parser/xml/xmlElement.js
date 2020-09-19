@@ -16,32 +16,12 @@ export class XmlElement{
         this.namespaceUri = namespaceUri;
     }
 
-    getName() {
-        return this.name;
-    }
-
-    getNamespace() {
-        return this.namespace;
-    }
-
-    getNamespaceUri(){
-        return this.namespaceUri;
-    }
-
-    getFullName() {
+    get fullName() {
         if(this.namespace === null){
             return this.name;
         }
 
         return this.namespace + ':' + this.name;
-    }
-
-    getAttributes(){
-        return this.attributes;
-    }
-
-    setAttributes(attributes){
-        this.attributes = attributes;
     }
 
     setAttribute(key,value) {
@@ -59,14 +39,6 @@ export class XmlElement{
 	clearAttribute(){
 		this.attributes = new Map();
 	}
-
-    getChildElements(){
-        return this.childElements;
-    }
-
-    setChildElements(elements) {
-        this.childElements = elements;
-    }
 
     setText(text){
         this.childElements = new List();
@@ -89,38 +61,38 @@ export class XmlElement{
         }
 
         if(this.selfClosing){
-            LOG.info(spacer + '<' + this.getFullName() + this.readAttributes() + '/>');
+            LOG.info(spacer + '<' + this.fullName + this.readAttributes() + '/>');
             return;
         }
-        LOG.info(spacer + '<' + this.getFullName() + this.readAttributes() + '>');
+        LOG.info(spacer + '<' + this.fullName + this.readAttributes() + '>');
         this.childElements.forEach(function(childElement){
             childElement.dumpLevel(level+1);
             return true;
         });
-        LOG.info(spacer + '</' + this.getFullName() + '>');
+        LOG.info(spacer + '</' + this.fullName + '>');
     }
 
     read(){
         let result = '';
         if(this.selfClosing){
-            result = result + '<' + this.getFullName() + this.readAttributes() + '/>';
+            result = result + '<' + this.fullName + this.readAttributes() + '/>';
             return result;
         }
-        result = result + '<' + this.getFullName() + this.readAttributes() + '>';
+        result = result + '<' + this.fullName + this.readAttributes() + '>';
         this.childElements.forEach(function(childElement){
             result = result + childElement.read();
             return true;
         });
-        result = result + '</' + this.getFullName() + '>';
+        result = result + '</' + this.fullName + '>';
         return result;
     }
 
     readAttributes(){
         let result = '';
         this.attributes.forEach(function (key,attribute,parent) {
-            let fullname = attribute.getName();
-            if(attribute.getNamespace() !== null) {
-                fullname = attribute.getNamespace() + ":" + attribute.getName();
+            let fullname = attribute.name;
+            if(attribute.namespace !== null && attribute.namespace !== undefined) {
+                fullname = attribute.namespace + ":" + attribute.name;
             }
             result = result + ' ' + fullname;
             if(attribute.value !== null){

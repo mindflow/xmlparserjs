@@ -11,10 +11,6 @@ export class DomTree{
         this.rootElement = null;
     }
 
-    setRootElement(element) {
-        this.rootElement = element;
-    }
-
     load(){
         let domScaffold = new DomScaffold(new Map());
         domScaffold.load(this.xml,0,this.elementCreatedListener);

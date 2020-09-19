@@ -22,10 +22,6 @@ export class ElementDetector{
         return this.element;
     }
 
-    getType() {
-        return this.type;
-    }
-
     isFound() {
         return this.found;
     }
@@ -42,18 +38,18 @@ export class ElementDetector{
         if(endpos != -1) {
 
             let namespaceUri = null;
-            if(elementBody.getNamespace() !== null && elementBody.getNamespace() !== undefined){
-                namespaceUri = this.namespaceUriMap.get(elementBody.getNamespace());
+            if(elementBody.namespace !== null && elementBody.namespace !== undefined){
+                namespaceUri = this.namespaceUriMap.get(elementBody.namespace);
             }
 
-            this.element = new XmlElement(elementBody.getName(), elementBody.getNamespace(), namespaceUri, false);
+            this.element = new XmlElement(elementBody.name, elementBody.namespace, namespaceUri, false);
 
-            elementBody.getAttributes().forEach(function(attributeName,attributeValue,parent){
-                parent.element.getAttributes().set(attributeName,attributeValue);
+            elementBody.attributes.forEach(function(attributeName,attributeValue,parent){
+                parent.element.attributes.set(attributeName,attributeValue);
                 return true;
             },this);
 
-            LOG.debug(depth, 'Found opening tag <' + this.element.getFullName() + '> from ' +  xmlCursor.cursor  + ' to ' + endpos);
+            LOG.debug(depth, 'Found opening tag <' + this.element.fullName + '> from ' +  xmlCursor.cursor  + ' to ' + endpos);
             xmlCursor.cursor = endpos + 1;
 
             if(!this.stop(depth)){
@@ -70,8 +66,8 @@ export class ElementDetector{
             let closingTagName =  this.xmlCursor.xml.substring(this.xmlCursor.cursor+2,closingElement);
             LOG.debug(depth, 'Found closing tag </' + closingTagName + '> from ' +  this.xmlCursor.cursor  + ' to ' + closingElement);
 
-            if(this.element.getFullName() != closingTagName){
-                LOG.error('ERR: Mismatch between opening tag <' + this.element.getFullName() + '> and closing tag </' + closingTagName + '> When exiting to parent elemnt');
+            if(this.element.fullName != closingTagName){
+                LOG.error('ERR: Mismatch between opening tag <' + this.element.fullName + '> and closing tag </' + closingTagName + '> When exiting to parent elemnt');
             }
             this.xmlCursor.cursor = closingElement +1;
             return true;

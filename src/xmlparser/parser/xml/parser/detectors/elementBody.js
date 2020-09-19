@@ -14,18 +14,6 @@ export class ElementBody{
         this.attributes = new Map();
     }
 
-    getName() {
-        return this.name;
-    }
-
-    getNamespace() {
-        return this.namespace;
-    }
-
-    getAttributes() {
-        return this.attributes;
-    }
-
     detectPositions(depth, xml, cursor){
         let nameStartpos = cursor;
         let nameEndpos = null;
