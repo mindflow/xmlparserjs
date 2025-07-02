@@ -4,7 +4,6 @@ import {Logger} from "coreutil_v1";
 import {XmlElement} from "../../xmlElement.js";
 import {ReadAhead} from "../readAhead.js";
 import {ElementBody} from "./elementBody.js";
-import {XmlAttribute} from "../../xmlAttribute.js";
 
 const LOG = new Logger("ClosingElementDetector");
 
